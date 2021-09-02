@@ -1,0 +1,258 @@
+﻿<script id="add-chemistry-template" type="text/template">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                    <div class="card shadow-box">
+                        <div class="card-header bg-primary">
+                            <p class="m-0">
+                                <i class="fa fa-dribbble"></i> 
+                            </p>
+                        </div>
+                        <div class="card-body bg-secondary">
+                            <i class="fa fa-home"></i> General Info
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Select Chapter</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary">
+                                                    <option selected disabled :value="00000000-0000-0000-0000-000000000000">Select</option>
+                                                    <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Part </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="Part" placeholder="Part " />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Title </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="Title" placeholder="Title " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Teachar Name </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="teacherName" placeholder="Teachar Name " />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Photo Url...</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input id="files" style="visibility:hidden;display:none" v-on:change="FileSelect" type="file" />
+                                                <label class="btn btn-success2 px-5 text-white" onclick="document.getElementById('files').click()">upload</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Video Url...</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input id="videofiles" style="visibility:hidden;display:none" v-on:change="VideoFileSelect" type="file" />
+                                                <button class="btn btn-success2 px-5 text-white" onclick="document.getElementById('videofiles').click()">upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                            <button class="btn btn-danger shadow-box w-100 text-white" v-on:click="CancelData()">Cancel</button>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                            <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="SaveData()">Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+
+</script>
+
+<script>
+    Vue.component('v-add-chemistry', {
+        template: "#add-chemistry-template",
+        data ()
+        {
+            return {
+                chapterId: '00000000-0000-0000-0000-000000000000',
+                Chapterdata: [],
+                Part:"",
+                Title: "",
+                teacherName: "",
+
+                fileName: "",
+                tempvideofileName: "",
+                videofileName: "",
+            }
+        },
+        methods: {
+            SaveData: function () {
+                this.statusUpdate = true;
+                this.statusResult = false;
+                var that = this;
+                var data = new FormData();
+                var files = this.videofileName;
+                data.set("file", files);
+                var temp =
+                {
+                    Chapter: this.chapterId,
+                    Part: this.Part,
+                    Sub_title: this.Title,
+                    Teachar_Name: this.teacherName,
+                    fileName: this.fileName,
+                    videofileName: data
+                };
+                //alert(JSON.stringify(temp));
+                @*that.$http.post('@Url.Action("InsertChemDetail", "CDetail")', { temp }, { files})  //Send back to Controller
+                    .then(response => {
+                       alert("Save Successfully");
+                   switch (response.body.status)
+                        {
+                        case "1":
+                       case "2":
+                           this.Chapterdata = [];
+                           this.chapterId = '00000000-0000-0000-0000-000000000000';
+                           this.Part = '';
+                           this.Title = '';
+                           this.teacherName = '';
+                           this.fileName = 'string';
+                           this.videofileName = 'string';
+                            break;
+                        }
+                    that.statusReject = response.body.status;
+                    that.statusResult = true;
+                    that.statusUpdate = false;
+
+                    }, response => {
+                        that.statusResult = true;
+                        that.statusUpdate = false;
+                        that.statusReject = "4";
+                });*@
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    processData: false,
+                    contentType: false,
+                    url: '@Url.Action("InsertChemDetail", "CDetail")',
+                    data: temp,
+                    success: function (data) {
+                        console.log("Response Data ↓");
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            },
+            FileSelect: function (e) {
+                //this.fileName = $('input[type=file]').val();
+                //var ext = e.target.files[0].name.match(/\.(.+)$/)[1];
+                //this.fileName = URL.createObjectURL(event.target.files[0]);
+                //this.createImage(e.target.files[0]);
+                this.fileName = $("#files").val();
+
+            },
+            VideoFileSelect: function (e) {
+                //this.videofileName = $('input[type=file]').val();
+                //var ext = e.target.files[0].name.match(/\.(.+)$/)[1];
+                //this.createvideo(e.target.files[0]);
+                //this.videofileName = URL.createObjectURL(event.target.files[0]);
+                //this.videofileName = e.target.files[0].target.result;
+                //this.createImage(e.target.files[0], e.target.result);
+                this.videofileName = e.target.files[0];
+
+            },
+            createImage: function (file) {
+
+                var reader = new FileReader();
+                var vm = this;
+
+                reader.onload = (e) => {
+                    vm.fileName = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            createvideo: function (file) {
+
+                var reader = new FileReader();
+                var vm = this;
+
+                reader.onload = (e) => {
+                    vm.videofileName = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            CancelData: function () {
+                this.Chapterdata = [];
+                this.Chapter = '';
+                this.Title = '';
+                this.Part = '';
+                this.teacherName = '';
+                this.fileName = 'string';
+                this.videofileName = 'string';
+            }
+
+            },
+            mounted() {
+                $.ajax({
+                    url: "/Chemistry/GetChemistryDropdown",
+                    success: codes => this.Chapterdata = codes,
+                    error: err => console.log(err)
+                })
+            }
+    });
+</script>

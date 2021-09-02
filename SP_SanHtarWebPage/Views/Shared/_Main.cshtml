@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Shwe Online Class</title>
+    <link rel="icon" type="image/png" href="~/images/icons/sicon.png" />
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/Content/icon-css/css/fontawesome-all.css" />
+    <script src="~/Scripts/vue.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.slim.min.js"></script>
+    <script src="~/Scripts/vuetable-2.js"></script>
+    <script src="~/Scripts/material.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/w3.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/encoding.min.js"></script>
+    <script src="~/Scripts/xlsx.full.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/v-calendar.min.js"></script>
+    <script src="~/Scripts/vue-select.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/vue-resource.min.js"></script>
+    <script src="~/Scripts/vue-chartjs.full.min.js"></script>
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/vue-charts.min.js"></script>
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+    <style>
+            @("@font-face { font-family: kanit-light; src: url(../Content/fonts/Kanit-Light.ttf), url(Content/fonts/Kanit-Light.ttf);}")
+            @("@font-face { font-family: kanit-regular; src: url(../Content/fonts/Kanit-Regular.ttf), url(Content/fonts/Kanit-Regular.ttf);}")
+    </style>
+    @*@{
+            var serverUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+            var serverUrlApp = string.Format("{0}", Url.Content("~"));
+        }*@
+    @*<script>
+            const Now = new Vue({
+                data: {
+                    login: '@TempData["Login"]',
+                    serverUrl: '@serverUrl',
+                    serverUrlApp: '@serverUrlApp',
+                    role: @Session["UserRoleID"],
+                }
+            });
+        </script>*@
+
+</head>
+<body>
+    <div class="col-lg-12 col-md-12 col-12" style="overflow-x: hidden;">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12 px-0">
+                <div class="col-lg-12 col-md-12 col-12 bg-primary" id="header">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div style="text-align:center">
+                            <div class="row">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4 menu-img"><img style="height:120px;margin-left:20px;margin-top:-25px" src="../icon/sicon.png" alt="" /></div>
+                                <div class="col-lg-4"></div>
+                                @*<p class="text-white py-2 ml-4 my-0" style="color:#fff"><h7 style="color:orange;margin-top:20px;margin-left:-27px">Online Classroom</h7></p>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="row">
+                            <div class="left-box ml-0 d-md-inline-block d-none">
+                            </div>
+                            <div class="d-md-none d-inline-block mt-3"><i class="fa fa-align-left text-white px-1" aria-hidden="true" data-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse bg-primary w-100" id="collapse">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="menu-tab">
+                            <div class="input-group">
+                                <div class="input-group-append mr-4"><i class="fa fa-search text-white" aria-hidden="true"></i></div>
+                                <input class="form-control bg-primary border border-top-0 border-left-0 border-right-0" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="menu-tab btn btn-primary my-1" v-for="item in menu">
+                            <div class="row">
+                                <div class="menu-img"><img class="w-100" v-bind:src="item.img" alt="" /></div>
+                                <p class="text-white py-2 ml-4 my-0">{{item.text}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100" style="display: inherit;">
+                <div class="d-md-inline-block d-none" id="leftmenu" v-bind:class="{ 'left-active': isActive }">
+                    <div class="left-tab bg-primary" v-bind:class="{ 'left-active': isActive }">
+                        <div class="col-lg-12 col-md-12 col-12 mt-2"><i class="fa fa-align-left text-white px-1" aria-hidden="true" v-on:click="isActive = !isActive"></i></div>
+                        @*<div class="col-lg-12 col-md-12 col-12 ml-1 px-0">
+                            <div class="menu-tab px-2">
+                                <div class="input-group mx-1">
+                                    <div class="input-group-append mr-4"><i class="fa fa-search text-white" aria-hidden="true"></i></div>
+                                    <input class="form-control bg-primary border border-top-0 border-left-0 border-right-0" style="max-width: 9rem;" type="text" />
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="col-lg-12 col-md-12 col-12 px-0" v-for="item in menu">
+                            <a class="menu-tab btn btn-primary my-1 px-4" :href="item.link">
+                                <div class="row">
+                                    <div class="menu-img"><img class="w-100" :src="item.img" alt="" /></div>
+                                    <p class="text-white py-2 ml-4 my-0">{{item.text}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container py-3">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#header',
+        data: {
+            textHead: [
+                { text: "Shwe" },
+                { text: "Shwe Online Classroom" }
+            ],
+            menu: [
+                {
+                    img: "../icon/home.svg",
+                    text: "Registration",
+                    link: "Registration",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/follower.svg",
+                    text: "Sale Order",
+                    link: "SaleOrder",
+                    role: [1, 2, 3]
+                },
+                {
+                    img: "../icon/map.svg",
+                    text: "Chemistry",
+                    link: "Chemistry",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/map.svg",
+                    text: "Chemistry Detail",
+                    link: "CDetail",
+                    role: [1, 2, 3, 4]
+                }
+            ]
+        }
+    })
+    new Vue({
+        el: '#collapse',
+        data: {
+            menu: [
+                {
+                    img: "../icon/home.svg",
+                    text: "Registration",
+                    link: "Registration",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/follower.svg",
+                    text: "Sale Order",
+                    link: "SaleOrder",
+                    role: [1, 2, 3,4]
+                },
+                {
+                    img: "../icon/map.svg",
+                    text: "Product",
+                    link: "Product",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/map.svg",
+                    text: "Chemistry Detail",
+                    link: "CDetail",
+                    role: [1, 2, 3, 4]
+                }
+            ]
+        }
+    })
+    new Vue({
+        el: '#leftmenu',
+        data: {
+            isActive: false,
+            menu: [
+                {
+                    img: "../icon/home.svg",
+                    text: "Registration",
+                    link: "Registration",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/follower.svg",
+                    text: "Sale Order",
+                    link: "SaleOrder",
+                    role: [1, 2, 3,4]
+
+                },
+                {
+                    img: "../icon/map.svg",
+                    text: "Chemistry",
+                    link: "Chemistry",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/map.svg",
+                    text: "Chemistry Detail",
+                    link: "CDetail",
+                    role: [1, 2, 3, 4]
+                }
+            ]
+        },
+        methods: {
+            modalActive: function (id) {
+                // this.active == id
+                alert(id);
+            },
+            active: function (n) {
+                this.tab = n
+            },
+            toggleData: function () {
+                this.checkDataExist = !this.checkDataExist
+            },
+            step: function (n) {
+                this.processActive = n
+            },
+            listMenuRole: function (roleMenu, roleUser) {
+                var reject = false;
+                for (var i = 0; i < roleMenu.length; i++) {
+                    if (roleMenu[i] == roleUser) reject = true;
+                }
+                return reject;
+            }
+        }
+    })
+</script>

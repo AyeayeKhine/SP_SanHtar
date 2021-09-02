@@ -1,0 +1,319 @@
+﻿
+    <script id="add-user-template" type="text/template">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12 mt-3">
+                        <div class="card shadow-box">
+                            <div class="card-header bg-primary">
+                                <p class="m-0">
+                                    <i class="fa fa-dribbble"></i> Personal Info
+                                </p>
+                            </div>
+                            <div class="card-body bg-secondary">
+                                <i class="fa fa-home"></i> General Info
+                                <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">First Name</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="FirstName" placeholder="FirstName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Last Name</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="LastName" placeholder="LastName" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">User Type</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <select class="form-control form-control-sm border-rad bg-primary" v-model="UserType">
+                                                        <option selected disabled>Select</option>
+                                                        <option value="1">Admin</option>
+                                                        <option value="2">SuperMember</option>
+                                                        <option value="3">Member</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Sex</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <select class="form-control form-control-sm border-rad bg-primary" v-model="Sex">
+                                                        <option selected disabled>Select</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <i class="fa fa-envelope"></i> Login Info
+                                <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">User Name</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="UserName" placeholder="UserName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Password</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="Password" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Email</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="Email" placeholder="Email" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <i class="fa fa-bank"></i>Contact Info
+                                <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Personal Contact Number</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="PersonalContactNumber" placeholder="PersonalContactNumber" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Other Contact Number</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input class="form-control form-control-sm border-rad" type="text" v-model="OtherContactNumber" placeholder="OtherContactNumber" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Photo Url...</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <input id="files" style="visibility:hidden;display:none" v-on:change="FileSelect" type="file" />
+                                                    <label class="btn btn-success2 px-5 text-white" for="files">upload</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <i class="fa fa-bank"></i>Assign To 
+                                <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Select Chapter</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary" v-on:change="onChange($event)">
+                                                        <option selected disabled :value="0">Select</option>
+                                                        <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <p class="m-0 text-primary mt-1">Select Part</p>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <select v-model="partId" class="form-control form-control-sm border-rad bg-primary">
+                                                        <option selected disabled :value="0">Select</option>
+                                                        <option v-for="role in Partdata" :value="role.ID">{{role.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="row">
+                            <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                                <button class="btn btn-danger shadow-box w-100 text-white" v-on:click="SaveData()">Cancel</button>
+                            </div>
+                            <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                                <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="SaveData()">Save</button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
+      
+
+    </script>
+
+<script>
+    Vue.component('v-add-user', {
+        template: "#add-user-template",
+        data ()
+        {
+            return {
+                statusUpdate: false,
+                statusResult: false,
+                statusReject: 1,
+                FirstName: "",
+                LastName: "",
+                UserType: "Select",
+                UserName: "",
+                Password: "",
+                Email: "",
+                PersonalContactNumber: "",
+                OtherContactNumber: "",
+                fileName: "",
+                Sex: "Select",
+                chapterId: 0,
+                Chapterdata: [],
+                partId: 0,
+                Partdata:[]
+            }
+        },
+        methods: {
+            SaveData: function () {
+                this.statusUpdate = true;
+                this.statusResult = false;
+                var that = this;
+                var  temp =
+                {
+                    FirstName: this.FirstName,
+                    LastName: this.LastName,
+                    UserType: this.UserType,
+                    Password: this.Password,
+                    Email: this.Email,
+                    PersonalContactNumber: this.PersonalContactNumber,
+                    OtherContactNumber: this.OtherContactNumber,
+                    fileName: this.fileName,
+                    Sex: this.Sex,
+                    }
+                //alert(JSON.stringify(temp));
+                that.$http.post('@Url.Action("InsertUser", "Registration")', { receive: JSON.stringify(temp) })  //Send back to Controller
+                    .then(response => {
+                       alert(response.body.status);
+                   switch (response.body.status)
+                        {
+                        case "1":
+                        case "2":
+
+                           this.FirstName = '';
+                           this.LastName = '';
+                           this.UserType = 'Select';
+                           this.Password = '';
+                           this.Email = '';
+                           this.PersonalContactNumber = '';
+                           this.OtherContactNumber = '';
+                           this.fileName = '';
+                           this.Sex = 'Select';
+                            break;
+                        }
+                    that.statusReject = response.body.status;
+                    that.statusResult = true;
+                    that.statusUpdate = false;
+
+                    }, response => {
+                        that.statusResult = true;
+                        that.statusUpdate = false;
+                        that.statusReject = "4";
+                });
+            },
+            FileSelect: function (e) {
+                var checkTypeFile = false;
+                var ext = e.target.files[0].name.match(/\.(.+)$/)[1];;
+                //for (i = 0; i < this.typeFileImport.length; i++) {
+                //    if (ext == this.typeFileImport[i]) {
+                //        checkTypeFile = true;
+                //        break;
+                //    }
+                //}
+                this.fileName = e.target.files[0].name;
+                this.fileextension = ext;
+            },
+            onChange(event) {
+                $.ajax({
+                    url: "/CDetail/GetDetailChemistryDropdown/" + event.target.value,
+                    success: codes => this.Partdata = codes,
+                    error: err => console.log(err)
+                })
+            }
+
+
+            },
+            mounted() {
+                $.ajax({
+                    url: "/Chemistry/GetChemistryDropdown",
+                    success: codes => this.Chapterdata = codes,
+                    error: err => console.log(err)
+                })
+            }
+    });
+</script>

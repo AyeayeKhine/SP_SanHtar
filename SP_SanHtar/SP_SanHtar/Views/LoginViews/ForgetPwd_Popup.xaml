@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage  xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:control="clr-namespace:SP_SanHtar.Controls"
+             mc:Ignorable="d"
+             x:Class="SP_SanHtar.Views.LoginViews.ForgetPwd_Popup">
+    <control:GridRadius Grid.Row="0" Grid.Column="0"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" RoundedCornerRadius="5">
+        <control:CustomFrame x:Name="FrameContainer" HasShadow="False" HorizontalOptions="FillAndExpand"  CornerRadius="20"
+               BackgroundColor="White"  Margin="-20,-20,-20,-20" Elevation="8" Grid.Row="0" Grid.Column="0" BorderColor="Transparent">
+
+            <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="ForgetPassword" Grid.Column="0" Grid.Row="0" TextColor="#FFFFFF" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center" FontSize="14"  BackgroundColor="DarkBlue" HeightRequest="40" x:Name="lbltitle"/>
+
+                <control:customEntry  Grid.Column="0" Grid.Row="1" FontSize="14" Margin="20,20,5,-10" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
+                     HorizontalTextAlignment="Start" x:Name="txtUserName" Placeholder="UserName" Keyboard="Chat" TextColor="#636363"
+                     PlaceholderColor="#636363">
+                </control:customEntry>
+
+                <BoxView Grid.Column="0" Margin="10,0,10,50" Grid.Row="2" HorizontalOptions="FillAndExpand" HeightRequest="0.5" BackgroundColor="#DFDFDF">
+                </BoxView>
+
+                <Grid Grid.Row="3" Grid.Column="0" ColumnSpacing="0" HorizontalOptions="FillAndExpand" Margin="0,15,0,0" VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" BackgroundColor="#F4F4F4">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Cancel_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Cancel" FontSize="14" TextColor="#B5B5B5" Margin="5,10,10,10"/>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="0" Grid.Column="1" HorizontalOptions="FillAndExpand" BackgroundColor="DarkBlue">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Confirm_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Send" FontSize="14" TextColor="#FFFFFF" Margin="5,10,10,10">
+                        </Label>
+                    </StackLayout>
+
+                </Grid>
+            </Grid>
+        </control:CustomFrame>
+
+    </control:GridRadius>
+</pages:PopupPage>

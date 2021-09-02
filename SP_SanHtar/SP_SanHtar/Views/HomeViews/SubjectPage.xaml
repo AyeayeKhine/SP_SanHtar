@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SP_SanHtar.Views.HomeViews.SubjectPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--Header Bar-->
+            <Grid Grid.Row="0"
+                  Grid.Column="0" 
+                  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#ffffff">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Fill" VerticalOptions="Fill" Source="SP_Header.png" Aspect="Fill"></Image>
+                <Grid Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="15,0,0,0">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Menu_Tapped"/>
+                    </Grid.GestureRecognizers>
+                    <Image Source="menu.png" HeightRequest="15" WidthRequest="15" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                </Grid>
+                <Grid Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Label Text="SPSH_Subjects" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TextColor="#FFFFFF"
+                       StyleId="SukhumvitSetMedium" FontSize="20"/>
+                </Grid>
+            </Grid>
+
+            <!-- Body -->
+            <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid                                    
+                  Margin="20,10,15,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Grid.Column="0" Grid.Row="0">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Myanamr_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="Myanamr"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12" ></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15" VerticalOptions="Center"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView BackgroundColor="#DFDFDF"
+                         Grid.Column="0"
+                         Grid.Row="1"
+                         HeightRequest="1"></BoxView>
+
+
+                    <StackLayout Grid.Column="0" Grid.Row="2" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="English_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                               
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="English"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12"></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView BackgroundColor="#DFDFDF"
+                         Grid.Column="0"
+                         Grid.Row="3"
+                         HeightRequest="1"
+                         ></BoxView>
+
+                    <StackLayout Grid.Column="0" Grid.Row="4" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Math_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="Mathematics"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12"></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView BackgroundColor="#DFDFDF"
+                         Grid.Column="0"
+                         Grid.Row="5"
+                         HeightRequest="1"></BoxView>
+
+                    <StackLayout Grid.Column="0" Grid.Row="6" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Physics_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="Physics"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12"></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView BackgroundColor="#DFDFDF"
+                         Grid.Column="0"
+                         Grid.Row="7"
+                         HeightRequest="1"></BoxView>
+
+                    <StackLayout Grid.Column="0" Grid.Row="8" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Chemistry_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="Chemistry"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12"></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView BackgroundColor="#DFDFDF"
+                         Grid.Column="0"
+                         Grid.Row="9"
+                         HeightRequest="1"></BoxView>
+
+                    <StackLayout Grid.Column="0" Grid.Row="10" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Bio_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="Biology"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12"></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+
+                    <BoxView BackgroundColor="#DFDFDF"                       
+                         Grid.Column="0"
+                         Grid.Row="11"
+                         HeightRequest="1"></BoxView>
+
+                    <StackLayout Grid.Column="0" Grid.Row="12" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Economics_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label StyleId="SukhumvitSetMedium"
+                                                 Grid.Row="0"
+                                                   Grid.Column="0"
+                                                  Text="Economics"                                                      
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="#8E8E8E" FontSize="12"></Label>
+
+                            <Image Source="blackarrow.png"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               HorizontalOptions="End"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               ></Image>
+
+
+                        </Grid>
+                    </StackLayout>
+
+                </Grid>
+
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

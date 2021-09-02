@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:video="clr-namespace:SP_SanHtar.FormsVideoLibrary" 
+             xmlns:converters="clr-namespace:SP_SanHtar.Converters"
+             mc:Ignorable="d"
+             x:Class="SP_SanHtar.Views.Subjects.ChemVideoPage"
+             Title="Video">
+    <ContentPage.Resources>
+        <converters:InverterBooleanConverter x:Key="InverterBooleanConverter" />
+        <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <!--<video:VideoPlayer Source="https://sp-sanhtar-web.conveyor.cloud/Dropzone/UploadMyanmar/13102020142203Myan.mp4Source="https://archive.org/download/BigBuckBunny_328/BigBuckBunny_512kb.mp4"" AutoPlay="True" Grid.Row="1"/>-->
+                <video:VideoPlayer x:Name="videoUrl"  AutoPlay="True" />
+            <StackLayout Grid.Row="1" Spacing="20">
+
+                <ProgressBar Progress="{Binding ProgressValue, Converter={StaticResource ValueProgressBarConverter}}" Margin="10,0"/>
+
+                <Label Text="{Binding ProgressValue, StringFormat='{0:F2}%'}" HorizontalOptions="Center" />
+
+                <Button Text="Start Download" BackgroundColor="#16ACE2"
+                    Command="{Binding StartDownloadCommand}"
+                    IsEnabled="{Binding IsDownloading, Converter={StaticResource InverterBooleanConverter}}" />
+                
+
+            </StackLayout>
+            <!--<Image Source="whiteDownload.png" Rotation="90" WidthRequest="90" HeightRequest="90" HorizontalOptions="End" VerticalOptions="End"></Image>-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
