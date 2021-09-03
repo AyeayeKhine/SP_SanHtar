@@ -259,7 +259,7 @@ namespace SP_SanHtar.Web.Controllers
                         userData.SaltAes = newtempCryptography.PlainText;
                         userData.SaltHash = newtempCryptography.SALT;
                         db.SaveChanges();
-                        _emailSender.SendEmailAsync(userData.Email, "SPSH New Password ", "Please use this code to login password for User account <br/> " +
+                        await _emailSender.SendEmailAsync(userData.Email, "SPSH New Password ", "Please use this code to login password for User account <br/> " +
                             "Here is your code :  " + newPasswrod);
                         return Ok(new Response { Message = "ForgetPassword Detected.", Status = APIStatus.Successfull });
                     }
