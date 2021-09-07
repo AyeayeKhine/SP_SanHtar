@@ -40,7 +40,7 @@
                                                 <p class="m-0 text-primary mt-1">Part </p>
                                             </div>
                                             <div class="col-lg-8 col-md-8 col-12">
-                                                <input class="form-control form-control-sm border-rad" type="text" v-model="Part" placeholder="Part " />
+                                                <input class="form-control form-control-sm border-rad" type="number" v-model.number="Part" placeholder="Part " />
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
 
                 fileName: "",
                 tempvideofileName: "",
-                videofileName: "",
+                videofileName: new FormData(),
             }
         },
         methods: {
@@ -144,9 +144,15 @@
                 this.statusUpdate = true;
                 this.statusResult = false;
                 var that = this;
+                var fileUpload = $("#videofiles").get(0);
+                var files = fileUpload.files;
                 var data = new FormData();
-                var files = this.videofileName;
-                data.set("file", files);
+                data.append('type', 'your_type');
+                data.append('id', '1');
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
                 var temp =
                 {
                     Chapter: this.chapterId,
@@ -154,10 +160,10 @@
                     Sub_title: this.Title,
                     Teachar_Name: this.teacherName,
                     fileName: this.fileName,
-                    videofileName: data
+                    videofileName: this.videofileName
                 };
-                //alert(JSON.stringify(temp));
-                @*that.$http.post('@Url.Action("InsertChemDetail", "CDetail")', { temp }, { files})  //Send back to Controller
+                alert(JSON.stringify(temp));
+                @*that.$http.post('@Url.Action("InsertChemDetail", "CDetail")', { receive: JSON.stringify(temp), videofileName: data })  //Send back to Controller
                     .then(response => {
                        alert("Save Successfully");
                    switch (response.body.status)
@@ -182,13 +188,15 @@
                         that.statusUpdate = false;
                         that.statusReject = "4";
                 });*@
+                var url = '/CDetail/InsertChemDetail?receive=' + JSON.stringify(temp) + '&videofileName=' + files;
                 $.ajax({
                     type: 'POST',
-                    async: true,
+                    url: '/CDetail/InsertChemDetail?receive=' + JSON.stringify(temp),
                     processData: false,
                     contentType: false,
-                    url: '@Url.Action("InsertChemDetail", "CDetail")',
-                    data: temp,
+                    data: data,
+                    cache: false,
+                    enctype: 'multipart/form-data',
                     success: function (data) {
                         console.log("Response Data ↓");
                         console.log(data);
@@ -243,7 +251,7 @@
                 this.Part = '';
                 this.teacherName = '';
                 this.fileName = 'string';
-                this.videofileName = 'string';
+                this.videofileName = new FormData();
             }
 
             },

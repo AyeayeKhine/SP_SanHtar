@@ -61,7 +61,7 @@ namespace SP_SanHtar.Web.Controllers
                             Teachar_Name = item.Teachar_Name,
                             Name = item.Data != "string" ? utility.SavePathFile("Myan.mp4", "UploadChemistry", Convert.ToBase64String(videoBytes), _hostingEnvironment) : null,
                             //Data = videoBytes,
-                            Photo_Name = item.Photo_Data != "string" ? utility.SavePathFile("Myan.jpg", "UploadPhotoChemistry", Convert.ToBase64String(imageBytes), _hostingEnvironment) : null,
+                            //Photo_Name = item.Photo_Data != "string" ? utility.SavePathFile("Myan.jpg", "UploadPhotoChemistry", Convert.ToBase64String(imageBytes), _hostingEnvironment) : null,
                         };
                         db.Tb_Chemistry_Details.Add(dataitem);
                         db.SaveChanges();

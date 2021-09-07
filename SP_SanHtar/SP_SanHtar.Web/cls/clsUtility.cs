@@ -41,7 +41,7 @@ namespace SP_SanHtar.Web.cls
         public async  Task<byte[]> FileToByteArray(string filePath)
         {
              byte[] fileData = null;
-            using var httpClient = new HttpClient();
+            //using var httpClient = new HttpClient();
             //FileInfo fi = new FileInfo(filePath);
             //using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
             //{
@@ -52,15 +52,15 @@ namespace SP_SanHtar.Web.cls
             //    }
             //}
             //fileData = File.ReadAllBytes(filePath);
-            //string pathfile = filePath;
-            //FileStream fs = new FileStream(pathfile, FileMode.Open, FileAccess.Read);
-            //BinaryReader br = new BinaryReader(fs);
+            string pathfile = filePath;
+            FileStream fs = new FileStream(pathfile, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
 
-            //fileData = br.ReadBytes((int)fs.Length);
+            fileData = br.ReadBytes((int)fs.Length);
 
-            //br.Close();
-            //fs.Close();
-            fileData = await httpClient.GetByteArrayAsync(filePath);
+            br.Close();
+            fs.Close();
+            //fileData = await httpClient.GetByteArrayAsync(filePath);
             return fileData;
         }
     }

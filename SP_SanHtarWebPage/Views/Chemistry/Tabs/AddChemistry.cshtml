@@ -120,7 +120,7 @@
                     fileName: this.fileName,
                     }
                 //alert(JSON.stringify(temp));
-                that.$http.post('@Url.Action("InsertChem", "Chemistry")', { receive: JSON.stringify(temp) })  //Send back to Controller
+                @*that.$http.post('@Url.Action("InsertChem", "Chemistry")', { receive: JSON.stringify(temp) })  //Send back to Controller
                     .then(response => {
                        alert("Save Successfully");
                    switch (response.body.status)
@@ -141,6 +141,33 @@
                         that.statusResult = true;
                         that.statusUpdate = false;
                         that.statusReject = "4";
+                });*@
+
+                var fileUpload = $("#files").get(0);
+                var files = fileUpload.files;
+                var data = new FormData();
+                data.append('type', 'your_type');
+                data.append('id', '1');
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Chemistry/InsertChem?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: function (data) {
+                        console.log("Response Data ↓");
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
                 });
             },
             FileSelect: function (e) {

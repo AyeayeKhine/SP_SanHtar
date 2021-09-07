@@ -27,21 +27,38 @@ namespace SP_SanHtarWebPage.Controllers
             return View();
         }
 
-        [IgnoreAntiforgeryToken]
-        [RequestFormLimits(MultipartBodyLengthLimit = 104857600)]
+       
         [HttpPost, ActionName("InsertChemDetail")]
-        public async Task<JsonResult> PostChemDetail([FromBody] ImportClass receive)
+        public async Task<JsonResult> PostChemDetail(string receive,IFormFile videofile)
         {
             try
             {
+                //file upload process
+                var files = Request.Form.Files[0];
                 dynamic jsData = JsonConvert.DeserializeObject(receive.ToString());
-
+               
                 //string path = Path.GetFullPath(jsData.fileName);
                 //string photodata = jsData.fileName.ToString().Split(',')[1];
                 //string videodata= tempData.videofileName.ToString().Split(',')[1];
                 //IFormFile customer = receive["videofileName"].ToObject<IFormFile>();
-                IFormFile postedFile =jsData.videofileName.File;
+                //IFormFile postedFile =jsData.videofileName.File;
                 string Id = jsData.Chapter;
+               
+                string wwwPath = this._hostingEnvironment.WebRootPath;
+                string contentPath = this._hostingEnvironment.ContentRootPath;
+
+                string path = Path.Combine(this._hostingEnvironment.WebRootPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+               
+                    string fileName = Path.GetFileName(files.FileName);
+                    using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                    {
+                        files.CopyTo(stream);
+                    }
+
                 var commonData = new CommonModel
                 {
                     Chapter = jsData.Part,
@@ -50,7 +67,7 @@ namespace SP_SanHtarWebPage.Controllers
                     Main_Title = "Part " + jsData.Part,
                     Teachar_Name = jsData.Teachar_Name,
                     //Photo_Data = photodata != "string" ? utility.SavePathFile("Myan.jpg", "UploadPhotoChemistry", photodata, _hostingEnvironment) : null,
-                    //Data = videodata != "string" ? utility.SavePathFile("Myan.mp4", "UploadChemistry", videodata, _hostingEnvironment) : null,
+                    Data = path +@"\"+ fileName,
                 };
                 var result = await WebApiClient.Instance.PostAsyncForC<ResponseList>("/api/ChemistryDetail/AddItem", commonData);
                 return Json(new
