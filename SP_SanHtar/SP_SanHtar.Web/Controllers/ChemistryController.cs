@@ -33,16 +33,10 @@ namespace SP_SanHtar.Web.Controllers
             {
                 try
                 {
-                    //item.Photo_Data = "D:\\AmaPyae\\Img\\bio_chap2.png";
-                    if (item.Data != null && item.Data != "string")
+                   
+                    if (item.Photo_Path != null && item.Photo_Path != "string")
                     {
-                        videoBytes = System.Text.Encoding.UTF8.GetBytes(item.Data);
-                        //videoBytes = utility.FileToByteArray(item.Data);
-                    }
-                    if (item.Photo_Data != null && item.Photo_Data != "string")
-                    {
-                        //imageBytes = System.Text.Encoding.UTF8.GetBytes(item.Photo_Data);
-                        imageBytes = await utility.FileToByteArray(item.Photo_Data);
+                        imageBytes = await utility.FileToByteArray(item.Photo_Path);
                     }
                     var chemistryitem = db.Tb_Chemistrys.Where(i => i.Chapter == item.Chapter && i.Active == true && i.Enabled == true).FirstOrDefault();
                     if (chemistryitem != null)
@@ -53,14 +47,10 @@ namespace SP_SanHtar.Web.Controllers
                     {
                         var dataitem = new Tb_Chemistry
                         {
-                            Main_Title = item.Main_Title,
-                            Sub_Title = item.Sub_Title,
                             Chapter = item.Chapter,
                             Title = item.Title,
-                            Teachar_Name = item.Teachar_Name,
-                            Name = item.Data != "string" ? utility.SavePathFile("Myan.mp4", "UploadChemistry", Convert.ToBase64String(videoBytes), _hostingEnvironment) : null,
-                            //Data = videoBytes,
-                            Photo_Name = item.Photo_Data != "string" ? utility.SavePathFile("Myan.jpg", "UploadPhotoChemistry", Convert.ToBase64String(imageBytes), _hostingEnvironment) : null,
+                            Teachear_Name = item.Teachear_Name,
+                            Photo_Path = item.Photo_Path != "string" ? utility.SavePathFile("Chem", "UploadPhotoChemistry", Convert.ToBase64String(imageBytes), _hostingEnvironment,".jpg") : null,
                         };
                         db.Tb_Chemistrys.Add(dataitem);
                         db.SaveChanges();
@@ -84,25 +74,20 @@ namespace SP_SanHtar.Web.Controllers
             {
                 string query = "";
                 query = "Select * from [SPSH_Database].[dbo].[Tb_Myanmar]";
-                var itemList = await db.Tb_Chemistrys.ToListAsync();
+                var itemList = await db.Tb_Chemistrys.OrderBy(i => i.Chapter).ToListAsync();
                 var dataList = new List<CommomModels>();
                 foreach (var item in itemList)
                 {
-                    dataList.Add(new CommomModels { ID = item.ID, Title = item.Title, Description = item.Main_Title, PhotoUrl = item.Photo_Name, Teacher_Name = item.Teachar_Name });
+                    dataList.Add(new CommomModels { ID = item.ID,Description="Chapter "+item.Chapter, Title = item.Title, PhotoUrl = item.Photo_Path, Teacher_Name = item.Teachear_Name });
                 }
-                //List<Tb_Myanamr> item = db.Tb_Myanamrs.FromSql(query).OrderBy(b => b.CreatedDate).ToList();
                 return Ok(new ResponseModel { Message = "Save Successful", Status = APIStatus.Successfull, Data = dataList });
-                //return Ok(item);
 
             }
             catch (Exception ex)
             {
                 return Ok(new ResponseModel { Message = ex.Message, Status = APIStatus.Error, Data = null });
             }
-
-
         }
-
 
     }
 }

@@ -60,19 +60,13 @@ namespace SP_SanHtar.Web.Models
     public class CommonDetails
     {
         public System.Guid ID { get; set; }
-        public int Chapter { get; set; }
+        public int Part { get; set; }
         public System.Guid ParentID { get; set; }
         public long CommonID { get; set; }
         public string Main_Title { get; set; }
         public string Title { get; set; }
-        public string Sub_Title { get; set; }
         public string Teachar_Name { get; set; }
         public string VideoUrl { get; set; }
-        public string ContentType { get; set; }
-        public string Data { get; set; }
-        public string Photo_Name { get; set; }
-        public string Photo_ContentType { get; set; }
-        public string Photo_Data { get; set; }
     }
     public enum APIStatus
     {

@@ -95,14 +95,6 @@
                 <div class="d-md-inline-block d-none" id="leftmenu" v-bind:class="{ 'left-active': isActive }">
                     <div class="left-tab bg-primary" v-bind:class="{ 'left-active': isActive }">
                         <div class="col-lg-12 col-md-12 col-12 mt-2"><i class="fa fa-align-left text-white px-1" aria-hidden="true" v-on:click="isActive = !isActive"></i></div>
-                        @*<div class="col-lg-12 col-md-12 col-12 ml-1 px-0">
-                            <div class="menu-tab px-2">
-                                <div class="input-group mx-1">
-                                    <div class="input-group-append mr-4"><i class="fa fa-search text-white" aria-hidden="true"></i></div>
-                                    <input class="form-control bg-primary border border-top-0 border-left-0 border-right-0" style="max-width: 9rem;" type="text" />
-                                </div>
-                            </div>
-                        </div>*@
                         <div class="col-lg-12 col-md-12 col-12 px-0" v-for="item in menu">
                             <a class="menu-tab btn btn-primary my-1 px-4" :href="item.link">
                                 <div class="row">
@@ -152,7 +144,7 @@
                 {
                     img: "../icon/map.svg",
                     text: "Chemistry Detail",
-                    link: "CDetail",
+                    link: "ChemistryDetail",
                     role: [1, 2, 3, 4]
                 }
             ]
@@ -183,7 +175,7 @@
                 {
                     img: "../icon/map.svg",
                     text: "Chemistry Detail",
-                    link: "CDetail",
+                    link: "ChemistryDetail",
                     role: [1, 2, 3, 4]
                 }
             ]
@@ -216,7 +208,7 @@
                 {
                     img: "../icon/map.svg",
                     text: "Chemistry Detail",
-                    link: "CDetail",
+                    link: "ChemistryDetail",
                     role: [1, 2, 3, 4]
                 }
             ]

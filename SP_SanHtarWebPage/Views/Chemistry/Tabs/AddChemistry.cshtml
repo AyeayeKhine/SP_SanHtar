@@ -13,7 +13,7 @@
                     <div class="card shadow-box">
                         <div class="card-header bg-primary">
                             <p class="m-0">
-                                <i class="fa fa-dribbble"></i> 
+                                <i class="fa fa-dribbble"></i>
                             </p>
                         </div>
                         <div class="card-body bg-secondary">
@@ -60,16 +60,16 @@
                                                 <p class="m-0 text-primary mt-1">Photo Url...</p>
                                             </div>
                                             <div class="col-lg-8 col-md-8 col-12">
-                                                <input id="files" style="visibility:hidden;display:none" v-on:change="FileSelect" type="file" />
+                                                <input id="files" style="visibility:hidden;display:none" type="file" />
                                                 <label class="btn btn-success2 px-5 text-white" for="files">upload</label>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                
+
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -98,8 +98,7 @@
 <script>
     Vue.component('v-add-chemistry', {
         template: "#add-chemistry-template",
-        data ()
-        {
+        data() {
             return {
                 Chapter: "",
                 Title: "",
@@ -112,36 +111,13 @@
                 this.statusUpdate = true;
                 this.statusResult = false;
                 var that = this;
-                var  temp =
+                var temp =
                 {
                     Chapter: this.Chapter,
                     Title: this.Title,
                     Teachar_Name: this.teacherName,
                     fileName: this.fileName,
-                    }
-                //alert(JSON.stringify(temp));
-                @*that.$http.post('@Url.Action("InsertChem", "Chemistry")', { receive: JSON.stringify(temp) })  //Send back to Controller
-                    .then(response => {
-                       alert("Save Successfully");
-                   switch (response.body.status)
-                        {
-                        case "1":
-                        case "2":
-                           this.Chapter = '';
-                           this.Title = '';
-                           this.teacherName = '';
-                           this.fileName = '';
-                            break;
-                        }
-                    that.statusReject = response.body.status;
-                    that.statusResult = true;
-                    that.statusUpdate = false;
-
-                    }, response => {
-                        that.statusResult = true;
-                        that.statusUpdate = false;
-                        that.statusReject = "4";
-                });*@
+                }
 
                 var fileUpload = $("#files").get(0);
                 var files = fileUpload.files;
@@ -161,31 +137,17 @@
                     data: data,
                     cache: false,
                     enctype: 'multipart/form-data',
-                    success: function (data) {
-                        console.log("Response Data ↓");
-                        console.log(data);
+                    success: data => {
+                        alert("Chemistry Form Save Sucessful !")
+                        this.Chapter = '';
+                        this.Title = '';
+                        this.teacherName = '';
+                        this.fileName = '';
                     },
                     error: function (err) {
                         console.log(err);
                     }
                 });
-            },
-            FileSelect: function (e) {
-                var checkTypeFile = false;
-                var ext = e.target.files[0].name.match(/\.(.+)$/)[1];
-                this.editcreateImage(e.target.files[0]);
-                //this.fileName = e.target.files[0];
-                //this.fileName = URL.createObjectURL(event.target.files[0]);
-                this.fileextension = ext;
-            },
-            editcreateImage: function (file) {
-                var reader = new FileReader();
-                var m = this.editpathdocumenttype;
-                var vm = this;
-                reader.onload = function (e) {
-                    this.fileName = e.target.result;
-                };
-                reader.readAsDataURL(file);
             },
             CancelData: function () {
                 this.Chapter = '';
@@ -194,13 +156,6 @@
                 this.fileName = '';
             }
 
-            },
-            mounted() {
-                $.ajax({
-                    url: "/CDetail/GetChemistryDropdown",
-                    success: codes => this.price1 = codes,
-                    error: err => console.log(err)
-                })
-            }
+        }
     });
 </script>

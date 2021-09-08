@@ -17,5 +17,7 @@ namespace SP_SanHtar.Web.Models
         public string PersonalContactNumber { get; set; }
         public string OtherContactNumber { get; set; }
         public string PhotoUrl { get; set; }
+        public string PartID { get; set; }
+        public string ChemistryID { get; set; }
     }
 }

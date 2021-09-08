@@ -10,10 +10,10 @@ namespace SP_SanHtar.Web.cls
 {
     public class clsUtility
     {
-        public string SavePathFile(string fileName, string tabName, string imgbit, IHostingEnvironment _hostingEnvironment)
+        public string SavePathFile(string fileName, string tabName, string imgbit, IHostingEnvironment _hostingEnvironment,string extension)
         {
             string pathFile = "";
-            string genFileName = DateTime.Now.ToString("ddMMyyyyHHmmss") + fileName;
+            string genFileName = fileName + DateTime.Now.ToString("ddMMyyyyHHmmss")+extension ;
             pathFile = @"\Dropzone\" + tabName + "\\" + genFileName;
             //string contentRootPath = _hostingEnvironment.ContentRootPath;
             string contentRootPath = _hostingEnvironment.WebRootPath;
@@ -41,27 +41,13 @@ namespace SP_SanHtar.Web.cls
         public async  Task<byte[]> FileToByteArray(string filePath)
         {
              byte[] fileData = null;
-            //using var httpClient = new HttpClient();
-            //FileInfo fi = new FileInfo(filePath);
-            //using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
-            //{
-            //    using (BinaryReader binaryReader = new BinaryReader(fs))
-            //    {
-            //        fileData = binaryReader.ReadBytes((int)fs.Length);
-            //        //Convert.FromBase64String(fileData.ToString());
-            //    }
-            //}
-            //fileData = File.ReadAllBytes(filePath);
             string pathfile = filePath;
             FileStream fs = new FileStream(pathfile, FileMode.Open, FileAccess.Read);
             BinaryReader br = new BinaryReader(fs);
-
             fileData = br.ReadBytes((int)fs.Length);
-
             br.Close();
             fs.Close();
-            //fileData = await httpClient.GetByteArrayAsync(filePath);
-            return fileData;
+            return  fileData;
         }
     }
 

@@ -50,10 +50,8 @@ namespace SP_SanHtarWebPage.Controllers
                 {
                     Chapter = jsData.Chapter,
                     Title = jsData.Title,
-                    Main_Title = "Chapter " + jsData.Chapter,
-                    Teachar_Name = jsData.Teachar_Name,
-                    Photo_Data = jsData.fileName,
-                    Data = "string",
+                    Teachear_Name = jsData.Teachar_Name,
+                    Photo_Path = path + @"\" + fileName,
                 };
                 var result = await WebApiClient.Instance.PostAsyncForC<ResponseList>("/api/Chemistry/AddItem", commonData);
                 return Json(new
@@ -76,12 +74,13 @@ namespace SP_SanHtarWebPage.Controllers
 
             var result = await WebApiClient.Instance.GetChemistryAsync<ResponseModel>("/api/Chemistry/GetAll", null);
             List<DropdownList> chemistyList = new List<DropdownList>();
-            //chemistyList.Add(new DropdownList { ID = new Guid(), Text = "Selected" });
-            foreach (var item in result.Data)
+            if(result.Data !=null && result.Data.Count() > 0)
             {
-                chemistyList.Add(new DropdownList { ID = item.ID, Text = item.Description });
+                foreach (var item in result.Data)
+                {
+                    chemistyList.Add(new DropdownList { ID = item.ID, Text = item.Description });
+                }
             }
-            
             return Json(chemistyList);
         }
     }

@@ -55,7 +55,7 @@ namespace SP_SanHtar.Web.Controllers
                         }
                         var item = new Tb_User
                         {
-                            PhotoUrl = utility.SavePathFile("User.jpg", "UploadUser", Convert.ToBase64String(imageBytes), _hostingEnvironment),
+                            PhotoUrl = utility.SavePathFile("User", "UploadUser", Convert.ToBase64String(imageBytes), _hostingEnvironment, ".jpg"),
                             Password = encryptedPassword,
                             SaltAes = tempCryptography.PlainText,
                             SaltHash = tempCryptography.SALT,
@@ -66,7 +66,9 @@ namespace SP_SanHtar.Web.Controllers
                             FirstName=registerUser.FirstName,
                             LastName=registerUser.LastName,
                             Email=registerUser.Email,
-                            UserType=registerUser.UserType
+                            UserType=registerUser.UserType,
+                            PartID=registerUser.PartID,
+                            ChemistryID=registerUser.ChemistryID
                         };
                         db.Tb_Users.Add(item);
                         db.SaveChanges();
@@ -276,7 +278,7 @@ namespace SP_SanHtar.Web.Controllers
 
         [HttpPost]
         [Route("GetAllUser")]
-        public async Task<IActionResult> GetAllUser(TableSearchClass tempData)
+        public async Task<IActionResult> GetAllUser(SearchClass tempData)
         {
             using (OnlineContext db = new OnlineContext())
             {
@@ -346,15 +348,10 @@ namespace SP_SanHtar.Web.Controllers
                             per_page = tempData.per_page != null ? tempData.per_page : null,
                             current_page = tempData.page != null ? tempData.page : null,
                             last_page = last_page != null ? last_page : null,
-                            //next_page_url = tempData.page < last_page ? string.Format("{0}?page={1}", Get.BaseURL(), tempData.page + 1) : null,
-                            //prev_page_url = tempData.page > 1 ? string.Format("{0}?page={1}", Get.BaseURL(), tempData.page - 1) : null,
                             from = tempData.page >= 1 ? ((tempData.per_page * (tempData.page - 1)) + 1) : null,
                             to = tempData.page >= 1 ? ((tempData.page - 1) * tempData.per_page) + resultTemp.Count() : null,
                             data = list,
                         };
-
-                        //return Json(temp);
-                        //  return Json(temp.data);
                         return Ok(new ResponseList { Message = "List", Status = APIStatus.Successfull, Data = temp });
                     }
                     else

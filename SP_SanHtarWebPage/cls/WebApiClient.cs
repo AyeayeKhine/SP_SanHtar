@@ -315,6 +315,32 @@ namespace SP_SanHtarWebPage.cls
             }
         }
 
+        public async Task<ResponseList> PostAsyncForR<T>(string action, UserModel data)
+        {
+            using (var client = new HttpClient())
+            {
+                ResponseList resModel = new ResponseList();
+                var jsonInString = JsonConvert.SerializeObject(data);
+                var result = await client.PostAsync(BuildActionUri(action), new StringContent(jsonInString, Encoding.UTF8, "application/json"));
+
+                if (result.IsSuccessStatusCode)
+                {
+                    string jsonResult = await result.Content.ReadAsStringAsync();
+                    if (IsValidJson(jsonResult))
+                    {
+                        return JsonConvert.DeserializeObject<ResponseList>(jsonResult);
+                    }
+                    else
+                    {
+                        return resModel;
+                    }
+                }
+
+                string json = await result.Content.ReadAsStringAsync();
+                throw new ApiException(result.StatusCode, json);
+            }
+        }
+
         private static bool IsValidJson(string strInput)
         {
             strInput = strInput.Trim();

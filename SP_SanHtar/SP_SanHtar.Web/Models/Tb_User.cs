@@ -19,6 +19,8 @@ namespace SP_SanHtar.Web.Models
         public string PhotoUrl { get; set; }
         public byte[] SaltAes { get; set; }
         public byte[] SaltHash { get; set; }
+        public string PartID { get; set; }
+        public string ChemistryID { get; set; }
 
         public Tb_User()
         {

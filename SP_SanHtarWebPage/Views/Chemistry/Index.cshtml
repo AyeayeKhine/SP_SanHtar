@@ -57,10 +57,8 @@
                         <div class="tab-right"><i class="fa fa-caret-right" aria-hidden="true"></i></div>
                     </button>
                     <div class="col-lg-12 col-md-12 col-12 px-0 mt-md-0 mt-2">
-                        <v-information-porduct v-show="$root.tab == 'ShowAllChemistry'"></v-information-porduct>
+                        <v-information-chemistry v-show="$root.tab == 'ShowAllChemistry'"></v-information-chemistry>
                         <v-add-chemistry v-show="$root.tab == 'AddChemistry'"></v-add-chemistry>
-                        @*<pie-chart v-show="$root.tab == 'ShowProductPIEChart'"></pie-chart>*@
-                        <pie-chartdata v-show="$root.tab == 'ShowProductPIEChart'" v-model="price" @*v-bind:price="realprice"*@></pie-chartdata>
                     </div>
                 </div>
             </div>

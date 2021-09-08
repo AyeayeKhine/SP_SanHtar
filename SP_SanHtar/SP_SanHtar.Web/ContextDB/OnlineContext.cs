@@ -29,7 +29,7 @@ namespace SP_SanHtar.Web.ContextDB
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-251TL74;Database=SPSH_Database;Persist Security Info=False;User ID=sa;Password=P@ssw0rd;Trusted_Connection=True;Encrypt=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-251TL74;Database=SPSH;Persist Security Info=False;User ID=sa;Password=P@ssw0rd;Trusted_Connection=True;Encrypt=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
             }
         }
 
@@ -37,11 +37,15 @@ namespace SP_SanHtar.Web.ContextDB
         {
             modelBuilder.Entity<Tb_User>(entity =>
             {
-                entity.ToTable("Tb_User", "dbo");
+                entity.ToTable("tbl_User", "dbo");
 
                 entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.UserID).ValueGeneratedOnAddOrUpdate();
+
+                entity.Property(e => e.ChemistryID).HasColumnName("ChemistryID");
+
+                entity.Property(e => e.PartID).HasColumnName("PartID");
 
                 entity.Property(e => e.UserName).HasColumnName("UserName");
 
@@ -163,10 +167,9 @@ namespace SP_SanHtar.Web.ContextDB
                 entity.Property(e => e.Enabled).HasColumnName("Enabled");
 
             });
-
             modelBuilder.Entity<Tb_Chemistry>(entity =>
             {
-                entity.ToTable("Tb_Chemistry", "dbo");
+                entity.ToTable("tbl_Chemistry", "dbo");
 
                 entity.Property(e => e.ID).HasColumnName("ID");
 
@@ -174,25 +177,7 @@ namespace SP_SanHtar.Web.ContextDB
 
                 entity.Property(e => e.Chapter).HasColumnName("Chapter");
 
-                entity.Property(e => e.Main_Title).HasColumnName("Main_Title");
-
-                entity.Property(e => e.Title).HasColumnName("Title");
-
-                entity.Property(e => e.Sub_Title).HasColumnName("Sub_Title");
-
-                entity.Property(e => e.Teachar_Name).HasColumnName("Teachar_Name");
-
-                entity.Property(e => e.Name).HasColumnName("Name");
-
-                entity.Property(e => e.ContentType).HasColumnName("ContentType");
-
-                entity.Property(e => e.Data).HasColumnName("Data");
-
-                entity.Property(e => e.Photo_Name).HasColumnName("Photo_Name");
-
-                entity.Property(e => e.Photo_ContentType).HasColumnName("Photo_ContentType");
-
-                entity.Property(e => e.Photo_Data).HasColumnName("Photo_Data");
+                entity.Property(e => e.Photo_Path).HasColumnName("Photo_Path");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
 
@@ -208,7 +193,7 @@ namespace SP_SanHtar.Web.ContextDB
             });
             modelBuilder.Entity<Tb_Chemistry_Detail>(entity =>
             {
-                entity.ToTable("Tb_Chemistry_Detail", "dbo");
+                entity.ToTable("tbl_ChemistryDetail", "dbo");
 
                 entity.Property(e => e.ID).HasColumnName("ID");
 
@@ -216,27 +201,11 @@ namespace SP_SanHtar.Web.ContextDB
 
                 entity.Property(e => e.ChemistryID).HasColumnName("ChemistryID");
 
-                entity.Property(e => e.Main_Title).HasColumnName("Main_Title");
-
                 entity.Property(e => e.Part).HasColumnName("Part");
 
                 entity.Property(e => e.Title).HasColumnName("Title");
 
-                entity.Property(e => e.Sub_Title).HasColumnName("Sub_Title");
-
-                entity.Property(e => e.Teachar_Name).HasColumnName("Teachar_Name");
-
-                entity.Property(e => e.Name).HasColumnName("Name");
-
-                entity.Property(e => e.ContentType).HasColumnName("ContentType");
-
-                entity.Property(e => e.Data).HasColumnName("Data");
-
-                entity.Property(e => e.Photo_Name).HasColumnName("Photo_Name");
-
-                entity.Property(e => e.Photo_ContentType).HasColumnName("Photo_ContentType");
-
-                entity.Property(e => e.Photo_Data).HasColumnName("Photo_Data");
+                entity.Property(e => e.Video_Path).HasColumnName("Video_Path");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
 

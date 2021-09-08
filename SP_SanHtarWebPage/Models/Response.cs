@@ -21,7 +21,6 @@ namespace SP_SanHtarWebPage.Models
         public int? to { get; set; }
         public List<UserModel> data { get; set; }
     }
-
     public class UserModel
     {
         //[PrimaryKey]
@@ -37,6 +36,8 @@ namespace SP_SanHtarWebPage.Models
         public string PersonalContactNumber { get; set; }
         public string OtherContactNumber { get; set; }
         public string PhotoUrl { get; set; }
+        public string PartID { get; set; }
+        public string ChemistryID { get; set; }
     }
     public class Response
     {
@@ -67,7 +68,7 @@ namespace SP_SanHtarWebPage.Models
     public class CommonDetails
     {
         public System.Guid ID { get; set; }
-        public int Chapter { get; set; }
+        public int Part { get; set; }
         public System.Guid ParentID { get; set; }
         public long CommonID { get; set; }
         public string Main_Title { get; set; }

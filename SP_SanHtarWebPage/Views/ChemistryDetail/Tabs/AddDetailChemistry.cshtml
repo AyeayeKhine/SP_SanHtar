@@ -1,0 +1,187 @@
+﻿<script id="add-chemistry-template" type="text/template">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                    <div class="card shadow-box">
+                        <div class="card-header bg-primary">
+                            <p class="m-0">
+                                <i class="fa fa-dribbble"></i>
+                            </p>
+                        </div>
+                        <div class="card-body bg-secondary">
+                            <i class="fa fa-home"></i> General Info
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Select Chapter</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary">
+                                                    <option selected disabled :value="0">Select</option>
+                                                    <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Part </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="number" v-model.number="Part" placeholder="Part " />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Title </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="Title" placeholder="Title " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Teachar Name </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="teacherName" placeholder="Teachar Name " />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Video Url...</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input id="videofiles" style="visibility:hidden;display:none" type="file" />
+                                                <button class="btn btn-success2 px-5 text-white" onclick="document.getElementById('videofiles').click()">upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                            <button class="btn btn-danger shadow-box w-100 text-white" v-on:click="CancelData()">Cancel</button>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                            <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="SaveData()">Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+
+</script>
+
+<script>
+    Vue.component('v-add-chemistry', {
+        template: "#add-chemistry-template",
+        data() {
+            return {
+                chapterId: "0",
+                Chapterdata: [],
+                Part: "",
+                Title: "",
+                teacherName: "",
+                fileName: "",
+                tempvideofileName: "",
+                videofileName: new FormData(),
+            }
+        },
+        methods: {
+            SaveData: function () {
+                this.statusUpdate = true;
+                this.statusResult = false;
+                var that = this;
+                var fileUpload = $("#videofiles").get(0);
+                var files = fileUpload.files;
+                var data = new FormData();
+                data.append('type', 'your_type');
+                data.append('id', '1');
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                var temp =
+                {
+                    Chapter: this.chapterId,
+                    Part: this.Part,
+                    Title: this.Title,
+                    Teachar_Name: this.teacherName,
+                    fileName: this.fileName,
+                    videofileName: this.videofileName
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/ChemistryDetail/InsertChemDetail?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    enctype: 'multipart/form-data',
+                    error: function (err) {
+                        console.log(err);
+                    }
+                }).done(x => {
+                    alert("Chemistry Detail Form Save Successful !");
+                    that.chapterId = '';
+                    that.Title = '';
+                    that.Part = '';
+                    that.teacherName = '';
+                    //that.CallDropDown();
+                });
+            },
+            CancelData: function () {
+                //that.Chapterdata = [];
+                that.chapterId = '';
+                that.Title = '';
+                that.Part = '';
+                that.teacherName = '';
+            }
+        },
+        mounted() {
+            $.ajax({
+                url: "/Chemistry/GetChemistryDropdown",
+                success: codes => this.Chapterdata = codes,
+                error: err => console.log(err)
+            })
+        }
+    });
+</script>
