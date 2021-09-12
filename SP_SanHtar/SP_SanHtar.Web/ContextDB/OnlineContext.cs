@@ -24,6 +24,7 @@ namespace SP_SanHtar.Web.ContextDB
         public virtual DbSet<Tb_Chemistry> Tb_Chemistrys { get; set; }
         public virtual DbSet<Tb_Chemistry_Detail> Tb_Chemistry_Details { get; set; }
         public virtual DbSet<Tb_User> Tb_Users { get; set; }
+        public virtual DbSet<tbl_Assign> tbl_Assigns { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -177,6 +178,10 @@ namespace SP_SanHtar.Web.ContextDB
 
                 entity.Property(e => e.Chapter).HasColumnName("Chapter");
 
+                entity.Property(e => e.Title).HasColumnName("Title");
+
+                entity.Property(e => e.Teachear_Name).HasColumnName("Teachear_Name");
+
                 entity.Property(e => e.Photo_Path).HasColumnName("Photo_Path");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
@@ -206,6 +211,39 @@ namespace SP_SanHtar.Web.ContextDB
                 entity.Property(e => e.Title).HasColumnName("Title");
 
                 entity.Property(e => e.Video_Path).HasColumnName("Video_Path");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
+
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("UpdatedBy");
+
+                entity.Property(e => e.UpdatedDate).HasColumnName("UpdatedDate");
+
+                entity.Property(e => e.Active).HasColumnName("Active");
+
+                entity.Property(e => e.Enabled).HasColumnName("Enabled");
+
+            });
+            modelBuilder.Entity<tbl_Assign>(entity =>
+            {
+                entity.ToTable("tbl_Assign", "dbo");
+
+                entity.Property(e => e.ID).HasColumnName("ID");
+
+                entity.Property(e => e.AssignID).ValueGeneratedOnAddOrUpdate();
+
+                entity.Property(e => e.UserID).HasColumnName("UserID");
+
+                entity.Property(e => e.ChapterID).HasColumnName("ChapterID");
+
+                entity.Property(e => e.Title).HasColumnName("Title");
+
+                entity.Property(e => e.Teachear_Name).HasColumnName("Teachear_Name");
+
+                entity.Property(e => e.Photo_Path).HasColumnName("Photo_Path");
+
+                entity.Property(e => e.Chapter).HasColumnName("Chapter");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
 

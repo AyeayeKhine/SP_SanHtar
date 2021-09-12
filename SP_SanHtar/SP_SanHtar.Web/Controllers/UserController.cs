@@ -72,6 +72,23 @@ namespace SP_SanHtar.Web.Controllers
                         };
                         db.Tb_Users.Add(item);
                         db.SaveChanges();
+                        string[] subs = registerUser.ChemistryID.Split(',');
+                        foreach(var id in subs)
+                        {
+                            Guid guidID = Guid.Parse(id);
+                            var chemItem = db.Tb_Chemistrys.Where(i => i.ID == guidID && i.Active == true && i.Enabled == true).FirstOrDefault();
+                            var assignItem = new tbl_Assign
+                            {
+                                Teachear_Name=chemItem.Teachear_Name,
+                                Title=chemItem.Title,
+                                Photo_Path=chemItem.Photo_Path,
+                                UserID= item.ID,
+                                ChapterID=guidID,
+                                Chapter=chemItem.Chapter
+                            };
+                            db.tbl_Assigns.Add(assignItem);
+                        }
+                        db.SaveChanges();
                         return Ok(new SaveResponseModel { Message = "Save Successful", Status = APIStatus.Successfull, Data = item });
                     }
                     

@@ -169,26 +169,26 @@
                                                     <p class="m-0 text-primary mt-1">Select Chapter</p>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8 col-12">
-                                                    <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary" v-on:change="onChange($event)">
-                                                        <option selected disabled :value="0">Select</option>
+                                                    <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary" v-on:change="onChange($event)" multiple>
+                                                        @*<option :value="0">Select</option>*@
                                                         <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        @*<div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 col-12">
                                                     <p class="m-0 text-primary mt-1">Select Part</p>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8 col-12">
-                                                    <select v-model="partId" class="form-control form-control-sm border-rad bg-primary">
+                                                    <select v-model="partId" class="form-control form-control-sm border-rad bg-primary" multiple>
                                                         <option selected disabled :value="0">Select</option>
                                                         <option v-for="role in Partdata" :value="role.ID">{{role.Text}}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
 
                                 </div>
@@ -247,7 +247,10 @@
                 this.statusUpdate = true;
                 this.statusResult = false;
                 var that = this;
-
+                var CId = this.chapterId[0];
+                for (var i = 1; i < this.chapterId.length; i++) {
+                    CId += "," + this.chapterId[i];
+                }
                 var  temp =
                 {
                     FirstName: this.FirstName,
@@ -261,7 +264,7 @@
                     fileName: this.fileName,
                     Sex: this.Sex,
                     PartID: this.partId,
-                    ChemistryID: this.chapterId,
+                    ChemistryID: CId,
                 }
 
                 var fileUpload = $("#files").get(0);
