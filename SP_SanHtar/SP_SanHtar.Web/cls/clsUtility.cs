@@ -49,6 +49,30 @@ namespace SP_SanHtar.Web.cls
             fs.Close();
             return  fileData;
         }
+
+        public static bool CheckNotNull(object item)
+        {
+            if(item != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckNull(object item)
+        {
+            if (item == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     // public class Get

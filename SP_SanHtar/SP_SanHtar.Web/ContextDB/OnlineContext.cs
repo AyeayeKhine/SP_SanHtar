@@ -19,11 +19,11 @@ namespace SP_SanHtar.Web.ContextDB
         {
         }
 
-        public virtual DbSet<Tb_Myanamr> Tb_Myanamrs { get; set; }
-        public virtual DbSet<Tb_Myanmar_Detail> Tb_Myanmar_Details { get; set; }
-        public virtual DbSet<Tb_Chemistry> Tb_Chemistrys { get; set; }
-        public virtual DbSet<Tb_Chemistry_Detail> Tb_Chemistry_Details { get; set; }
-        public virtual DbSet<Tb_User> Tb_Users { get; set; }
+        public virtual DbSet<tbl_Myanamr> Tb_Myanamrs { get; set; }
+        public virtual DbSet<tbl_Myanmar_Detail> Tb_Myanmar_Details { get; set; }
+        public virtual DbSet<tbl_Chemistry> Tb_Chemistrys { get; set; }
+        public virtual DbSet<tbl_Chemistry_Detail> Tb_Chemistry_Details { get; set; }
+        public virtual DbSet<tbl_User> Tb_Users { get; set; }
         public virtual DbSet<tbl_Assign> tbl_Assigns { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,7 +36,7 @@ namespace SP_SanHtar.Web.ContextDB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Tb_User>(entity =>
+            modelBuilder.Entity<tbl_User>(entity =>
             {
                 entity.ToTable("tbl_User", "dbo");
 
@@ -83,7 +83,7 @@ namespace SP_SanHtar.Web.ContextDB
                 entity.Property(e => e.UpdatedDate).HasColumnName("UpdatedDate");
 
             });
-            modelBuilder.Entity<Tb_Myanamr>(entity =>
+            modelBuilder.Entity<tbl_Myanamr>(entity =>
             {
                 entity.ToTable("Tb_Myanmar", "dbo");
 
@@ -123,7 +123,7 @@ namespace SP_SanHtar.Web.ContextDB
                 entity.Property(e => e.Enabled).HasColumnName("Enabled");
 
             });           
-            modelBuilder.Entity<Tb_Myanmar_Detail>(entity =>
+            modelBuilder.Entity<tbl_Myanmar_Detail>(entity =>
             {
                 entity.ToTable("Tb_Myanmar_Detail", "dbo");
 
@@ -168,7 +168,7 @@ namespace SP_SanHtar.Web.ContextDB
                 entity.Property(e => e.Enabled).HasColumnName("Enabled");
 
             });
-            modelBuilder.Entity<Tb_Chemistry>(entity =>
+            modelBuilder.Entity<tbl_Chemistry>(entity =>
             {
                 entity.ToTable("tbl_Chemistry", "dbo");
 
@@ -196,7 +196,7 @@ namespace SP_SanHtar.Web.ContextDB
                 entity.Property(e => e.Enabled).HasColumnName("Enabled");
 
             });
-            modelBuilder.Entity<Tb_Chemistry_Detail>(entity =>
+            modelBuilder.Entity<tbl_Chemistry_Detail>(entity =>
             {
                 entity.ToTable("tbl_ChemistryDetail", "dbo");
 

@@ -34,21 +34,18 @@ namespace SP_SanHtar.Web.Models
         public APIStatus Status { get; set; }
         public List<CommomModels> Data { get; set; }
     }
-
     public class ResponseDetailModel
     {
         public string Message { get; set; }
         public APIStatus Status { get; set; }
         public List<CommonDetails> Data { get; set; }
     }
-
     public class SaveResponseModel
     {
         public string Message { get; set; }
         public APIStatus Status { get; set; }
         public object Data { get; set; }
     }
-
     public class CommomModels
     {
         public Guid ID { get; set; }
@@ -75,7 +72,6 @@ namespace SP_SanHtar.Web.Models
         SystemError = 2,
         Warning =3
     }
-
     public class UserModel
     {
         public Guid ID { get; set; }
@@ -86,9 +82,12 @@ namespace SP_SanHtar.Web.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public int UserType { get; set; }
-        public bool Sex { get; set; }
+        public string Sex { get; set; }
         public string PersonalContactNumber { get; set; }
         public string OtherContactNumber { get; set; }
         public string PhotoUrl { get; set; }
+        public string PartID { get; set; }
+        public string ChemistryID { get; set; }
+        public string ChemistryString { get; set; }
     }
 }

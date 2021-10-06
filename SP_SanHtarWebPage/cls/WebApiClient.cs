@@ -62,7 +62,7 @@ namespace SP_SanHtarWebPage.cls
             }
         }
 
-        public async Task<ResponseList> GetListAsync<T>(string action, string authToken = null)
+        public async Task<ResponseList<T>> GetListAsync<T>(string action, string authToken = null)
         {
             using (var client = new HttpClient())
             {
@@ -79,7 +79,7 @@ namespace SP_SanHtarWebPage.cls
 
                     }
                     //return (JsonConvert.DeserializeObject<T>(json));
-                    ResponseList ojbect = JsonConvert.DeserializeObject<ResponseList>(json);
+                    ResponseList<T> ojbect = JsonConvert.DeserializeObject<ResponseList<T>>(json);
                     return ojbect;
                 }
                
@@ -262,12 +262,11 @@ namespace SP_SanHtarWebPage.cls
                 return null;
             }
         }
-
-        public async Task<ResponseList> PostAsync<T>(string action, TableSearchClass data)
+        public async Task<ResponseList<T>> PostAsyncForC<T>(string action, CommonModel data)
         {
             using (var client = new HttpClient())
             {
-                ResponseList resModel = new ResponseList();
+                ResponseList<T> resModel = new ResponseList<T>();
                 var jsonInString = JsonConvert.SerializeObject(data);
                 var result = await client.PostAsync(BuildActionUri(action), new StringContent(jsonInString, Encoding.UTF8, "application/json"));
 
@@ -276,7 +275,7 @@ namespace SP_SanHtarWebPage.cls
                     string jsonResult = await result.Content.ReadAsStringAsync();
                     if (IsValidJson(jsonResult))
                     {
-                        return JsonConvert.DeserializeObject<ResponseList>(jsonResult);
+                        return JsonConvert.DeserializeObject<ResponseList<T>>(jsonResult);
                     }
                     else
                     {
@@ -289,23 +288,28 @@ namespace SP_SanHtarWebPage.cls
             }
         }
 
-        public async Task<ResponseList> PostAsyncForC<T>(string action, CommonModel data)
+        public async Task<ResponseList<S>> PostAsyncForList<T,S>(string action, TableSearchClass data)
         {
             using (var client = new HttpClient())
             {
-                ResponseList resModel = new ResponseList();
+                ResponseList<S> resModel = new ResponseList<S>();
                 var jsonInString = JsonConvert.SerializeObject(data);
                 var result = await client.PostAsync(BuildActionUri(action), new StringContent(jsonInString, Encoding.UTF8, "application/json"));
 
                 if (result.IsSuccessStatusCode)
                 {
                     string jsonResult = await result.Content.ReadAsStringAsync();
+                    //dynamic jsData = JsonConvert.DeserializeObject(jsonResult.ToString());
                     if (IsValidJson(jsonResult))
                     {
-                        return JsonConvert.DeserializeObject<ResponseList>(jsonResult);
-                    }
-                    else
-                    {
+                        if (typeof(T) == typeof(string))
+                        {
+                            return GetValue<ResponseList<S>>(jsonResult);
+                        }
+                       
+                        resModel = JsonConvert.DeserializeObject<ResponseList<S>>(jsonResult);
+                        //string registerDataValue = JsonConvert.SerializeObject(jsData.data);
+                        //resModel.data = JsonConvert.DeserializeObject<List<S>>(registerDataValue);
                         return resModel;
                     }
                 }
@@ -313,13 +317,13 @@ namespace SP_SanHtarWebPage.cls
                 string json = await result.Content.ReadAsStringAsync();
                 throw new ApiException(result.StatusCode, json);
             }
-        }
+        }     
 
-        public async Task<ResponseList> PostAsyncForR<T>(string action, UserModel data)
+        public async Task<T> PostAsync<T,S>(string action, S data)
         {
             using (var client = new HttpClient())
             {
-                ResponseList resModel = new ResponseList();
+                Response resModel = new Response();
                 var jsonInString = JsonConvert.SerializeObject(data);
                 var result = await client.PostAsync(BuildActionUri(action), new StringContent(jsonInString, Encoding.UTF8, "application/json"));
 
@@ -328,12 +332,9 @@ namespace SP_SanHtarWebPage.cls
                     string jsonResult = await result.Content.ReadAsStringAsync();
                     if (IsValidJson(jsonResult))
                     {
-                        return JsonConvert.DeserializeObject<ResponseList>(jsonResult);
+                        return JsonConvert.DeserializeObject<T>(jsonResult);
                     }
-                    else
-                    {
-                        return resModel;
-                    }
+                    
                 }
 
                 string json = await result.Content.ReadAsStringAsync();

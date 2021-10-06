@@ -1,0 +1,355 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_SubMain.cshtml";
+}
+
+<div id="EditRegister">
+    <v-edit-user></v-edit-user>
+</div>
+
+<script id="edit-user-template" type="text/x-template">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                    <div class="card shadow-box">
+                        <div class="card-header bg-primary">
+                            <p class="m-0">
+                                <i class="fa fa-dribbble"></i> Personal Info
+                            </p>
+                        </div>
+                        <div class="card-body bg-secondary">
+                            <i class="fa fa-home"></i> General Info
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">First Name</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="FirstName" placeholder="FirstName" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Last Name</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="LastName" placeholder="LastName" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">User Type</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <select class="form-control form-control-sm border-rad bg-primary" v-model="UserType" :disabled="$root.statusUpdate">
+                                                    <option selected disabled>Select</option>
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">SuperMember</option>
+                                                    <option value="3">Member</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Sex</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <select class="form-control form-control-sm border-rad bg-primary" v-model="Sex" :disabled="$root.statusUpdate">
+                                                    <option selected disabled>Select</option>
+                                                    <option value="1">Female</option>
+                                                    <option value="2">Male</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br /><br />
+                            <i class="fa fa-envelope"></i> Login Info
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">User Name</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="UserName" placeholder="UserName" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Email</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="Email" placeholder="Email" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <i class="fa fa-bank"></i>Contact Info
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Personal Contact Number</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="PersonalContactNumber" placeholder="PersonalContactNumber" :disabled="$root.statusUpdate"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Other Contact Number</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="OtherContactNumber" placeholder="OtherContactNumber" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br /><br />
+                            <i class="fa fa-bank"></i>Assign To
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Select Chapter</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary" v-on:change="onChange($event)"
+                                                multiple :disabled="$root.statusUpdate" v-show ="!$root.statusUpdate">
+                                                    <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
+                                                </select>
+                                               <label class="form-control form-control-sm border-rad" v-show="$root.statusUpdate" :disabled="$root.statusUpdate">{{this.ChemistryString}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                            <button class="btn btn-danger shadow-box w-100 text-white" v-on:click="Cancel()">Cancel</button>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2" v-show="$root.statusUpdate">
+                            <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="Edit()">Edit</button>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2" v-show ="!$root.statusUpdate">
+                            <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="SaveData()">Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+
+</script>
+
+<script>
+    Vue.component('v-edit-user', {
+        template: "#edit-user-template",
+        data() {
+            return {
+
+                statusResult: false,
+                statusReject: 1,
+                FirstName: "",
+                LastName: "",
+                UserType: "Select",
+                UserName: "",
+                Password: "",
+                Email: "",
+                PersonalContactNumber: "",
+                OtherContactNumber: "",
+                fileName: "",
+                Sex: "Select",
+                chapterId: "",
+                Chapterdata: [],
+                partId: 0,
+                Partdata: [],
+                ChemistryString: ""
+            }
+        },
+        methods: {
+            SaveData: function () {
+                //this.statusUpdate = true;
+                this.statusResult = false;
+                var that = this;
+                var CId = this.chapterId[0];
+                for (var i = 1; i < this.chapterId.length; i++) {
+                    CId += "," + this.chapterId[i];
+                }
+                var temp =
+                {
+                    ID: new URL(window.location.href).searchParams.get('id'),
+                    FirstName: this.FirstName,
+                    LastName: this.LastName,
+                    UserType: this.UserType,
+                    UserName: this.UserName,
+                    Password: this.Password,
+                    Email: this.Email,
+                    PersonalContactNumber: this.PersonalContactNumber,
+                    OtherContactNumber: this.OtherContactNumber,
+                    fileName: this.fileName,
+                    Sex: this.Sex,
+                    PartID: this.partId,
+                    ChemistryID: CId,
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/Registration/InsertUser?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: data => {
+                        if (data.status == 2) {
+                            alert("User Form Update Sucessful !")
+                            this.$parent.statusUpdate = true;
+                            this.ChemistryString = data.Data.ChemistryString;
+                        } else {
+                            alert(data.message)
+                        }
+
+                    },
+                    error: function (err) {
+                        alert(err.message)
+                        console.log(err);
+                    }
+                });
+            },
+            onChange(event) {
+                $.ajax({
+                    url: "/ChemistryDetail/GetDetailChemistryDropdown/" + event.target.value,
+                    success: codes => this.Partdata = codes,
+                    error: err => console.log(err)
+                })
+            },
+            Cancel: function () {
+                window.close();
+            },
+            Edit: function () {
+                this.$parent.statusUpdate = false;
+            },
+            onBind: function () {
+                var getStatus = new URL(window.location.href).searchParams.get('UpdateStatus');
+                var getID = new URL(window.location.href).searchParams.get('id');
+                if (getStatus == "true") {
+                    this.$parent.statusUpdate = true;
+                } else {
+                    this.$parent.statusUpdate = false;
+                }
+                var temp = { ID: getID }
+                $.ajax({
+                    type: 'POST',
+                    url: '/Registration/GetbyId?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: data => {
+                        if (data.status == 2) {
+                            this.FirstName = data.Data.FirstName;
+                            this.LastName = data.Data.LastName;
+                            this.UserType = data.Data.UserType;
+                            this.UserName = data.Data.UserName;
+                            //this.Password = data.Data.;
+                            this.Email = data.Data.Email;
+                            this.PersonalContactNumber = data.Data.PersonalContactNumber;
+                            this.OtherContactNumber = data.Data.OtherContactNumber;
+                            this.Sex = data.Data.Sex;
+                            this.chapterId = data.Data.ChemistryID.split(',');
+                            this.ChemistryString = data.Data.ChemistryString;
+                        } else {
+                            alert(data.message)
+                        }
+
+                    },
+                    error: function (err) {
+                        alert(err.message)
+                        console.log(err);
+                    }
+                });
+            }
+
+        },
+        mounted() {
+            $.ajax({
+                url: "/Chemistry/GetChemistryDropdown",
+                success: codes => this.Chapterdata = codes,
+                error: err => console.log(err)
+            });
+            this.$nextTick(() => {
+                this.onBind();
+            });
+        },
+        computed() {
+            //this.$nextTick(() => {
+            //    var getStatus = new URL(window.location.href).searchParams.get('UpdateStatus');
+            //    this.statusUpdate = getStatus;
+            //});
+        }
+    });
+
+    new Vue({
+        el: "#EditRegister",
+        data() {
+            return {
+                statusUpdate: true,
+            }
+        },
+        methods:
+        {
+
+        }
+    })
+
+
+
+</script>

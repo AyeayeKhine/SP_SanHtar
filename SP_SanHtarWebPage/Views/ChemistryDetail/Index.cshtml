@@ -38,7 +38,7 @@
         </div>
         <div class="col-lg-12 col-md-12 col-12">
             <div class="collapse w-100" id="tabcollapse" v-for="item in arrTab">
-                <div class="col-lg-12 col-md-12 col-12" style="cursor:pointer;" v-on:click="active('item.text')" v-bind:class="{'bg-secondary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
+                <div class="col-lg-12 col-md-12 col-12" style="cursor:pointer;" v-on:click="active('item.text')" v-bind:class="{'bg-primary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
                     <p class="m-0 py-2">{{item.text}}</p>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <div class="pn-ProductNav_Wrapper">
                     <nav class="pn-ProductNav" id="pnProductNav">
                         <div class="pn-ProductNav_Contents" id="pnProductNavContents" style="display: inline-flex;" v-for="item in arrTab">
-                            <div class="tab-top mr-1 text-center pt-3 px-3 pb-0" style="cursor:pointer;" v-on:click="active(item.text)" v-bind:class="{'bg-secondary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
+                            <div class="tab-top mr-1 text-center pt-3 px-3 pb-0" style="cursor:pointer;" v-on:click="active(item.text)" v-bind:class="{'bg-primary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
                                 <p class="m-0 mt-2">{{item.text}}</p>
                             </div>
                         </div>
@@ -60,6 +60,7 @@
                     <div class="col-lg-12 col-md-12 col-12 px-0 mt-md-0 mt-2">
                         <v-information-porduct v-show="$root.tab == 'ShowAllChemistryDetail'"></v-information-porduct>
                         <v-add-chemistry v-show="$root.tab == 'AddChemistryDetail'"></v-add-chemistry>
+                        <v-recover-chemdetailt v-show="$root.tab == 'ShowRecoverPart'"></v-recover-chemdetailt>
                     </div>
                 </div>
             </div>
@@ -70,6 +71,7 @@
 
 @Html.Partial("~/Views/ChemistryDetail/Tabs/AddDetailChemistry.cshtml")
 @Html.Partial("~/Views/ChemistryDetail/Tabs/ShowDetailChemistry.cshtml")
+@Html.Partial("~/Views/ChemistryDetail/Tabs/ShowRecoverChemDetail.cshtml")
 <script>
 
 
@@ -92,6 +94,12 @@
                         no: "4",
                         role: [1, 2, 3]
                     },
+                    {
+
+                        text: "ShowRecoverPart",
+                        no: "4",
+                        role: [1, 2, 3]
+                    },
                 ]
                 ,
                 processActive: this.$root.processActive,
@@ -100,8 +108,11 @@
         },
         methods: {
             active: function (n) {
-               
+
                 if (n == "ShowAllChemistryDetail") {
+                    this.$children[0].onRefresh();
+                } else if (n == "ShowRecoverPart") {
+                    this.$children[2].onRefresh();
                 }
                 this.$parent.tab = n
             },

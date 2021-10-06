@@ -1,0 +1,61 @@
+/**
+ * vuetable-2 v1.6.0
+ * https://github.com/ratiw/vuetable-2
+ * Released under the MIT License.
+ */
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: white !important;
+    background-color: red;
+    border-color: red red red;
+}
+#table-wrapper {
+    color: #2c3e50;
+}
+
+.color-white {
+    color: white !important;
+}
+.cursor-pointer {
+    cursor: pointer !important;
+}
+thead {
+    background-color: #57b846 !important;
+    color: white !important;
+}
+.modal-dialog {
+    top: 5%;
+    width: 35%;
+    vertical-align: middle;
+}
+
+.orange.glyphicon {
+    color: palegoldenrod;
+}
+span.month.focused.active {
+    background-image: linear-gradient(to bottom, Red,Darkred);
+
+}
+span.day.focused.active {
+    background-image: linear-gradient(to bottom, Red,Darkred);
+}
+span.year.focused.active {
+    background-image: linear-gradient(to bottom, Red,Darkred);
+}
+span.active:hover {
+    background-image: linear-gradient(to bottom,Darkred,palegoldenrod) !important;
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(Darkred),to(palegoldenrod));
+}
+th.sortable {
+    color: palegoldenrod;
+}
+[v-cloak][_v-0c70c9de] {
+    display: none
+}.vuetable th.sortable[_v-0c70c9de]:hover{color:#2185d0;cursor:pointer}.vuetable-actions[_v-0c70c9de]{width:15%;padding:12px 0;text-align:center}.vuetable-pagination[_v-0c70c9de]{background:#f9fafb!important}.vuetable-pagination-info[_v-0c70c9de]{margin-top:auto;margin-bottom:auto}.vuetable-empty-result[_v-0c70c9de]{text-align:center}

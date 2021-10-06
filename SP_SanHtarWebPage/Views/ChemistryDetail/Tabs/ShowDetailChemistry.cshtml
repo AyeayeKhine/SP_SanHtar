@@ -20,7 +20,7 @@
 
             <div id="table-wrapper" class="card-body scb-card-body table-responsive">
                 <vuetable ref="vuetable"
-                          api-url="@Url.Action("GetAllUser", "Registration")"
+                          api-url="@Url.Action("GetAllChemistryDetail", "ChemistryDetail")"
                           :fields="fields"
                           :sort-order="sortOrder"
                           track-by="ID"
@@ -33,33 +33,37 @@
                           v-on:vuetable:pagination-data="onPaginationData">
                     <template slot="actions" scope="props">
                         <div class="table-button-container">
-                            <a style="cursor:pointer" v-on:click="editRow('edit-item',props.rowData)">
-                                <i class="fa fa-pencil text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
-                                edit
+                            <a style="cursor:pointer;padding-right:20px" v-on:click="editRow('edit-item',props.rowData)">
+                                <i class="fa fa-edit text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal">
+                                </i>
+                                Edit
                             </a>
-                            <a style="cursor:pointer" v-on:click="editRow('delete-item',props.rowData)">
-                                <i class="fa fa-pencil text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
-                                delete
+                            <a style="cursor:pointer;padding-right:20px" v-on:click="deleteRow('delete-item',props.rowData)">
+                                <i class="fa fa-remove text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
+                                Delete
                             </a>
                             <a style="cursor:pointer" v-on:click="detailRow('detail-item',props.rowData)">
-                                <i class="fa fa-pencil text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
-                                detail
+                                <i class="fa fa-check text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
+                                Detail
                             </a>
                         </div>
                     </template>
                 </vuetable>
             </div>
 
-            <div id="v-Comp-Footer" style="margin-top: 50px; margin-left: 50px;">
-                <div class="row">
-                    <div class="vuetable-pagination ui basic grid">
-                        <vuetable-pagination ref="pagination"
-                                             :css="css.pagination"
-                                             v-on:vuetable-pagination:change-page="onChangePage">
-                        </vuetable-pagination>
-                    </div>
+            <div id="v-Comp-Footer" style="margin-top: 20px;">
+                <div class="vuetable-pagination ui basic grid">
+                    <vuetable-pagination ref="pagination"
+                                         :css="css.pagination"
+                                         v-on:vuetable-pagination:change-page="onChangePage">
+                    </vuetable-pagination>
+                    <vuetable-pagination-info style="padding-top: 8px;"
+                                              ref="paginationInfo"
+                                              :css="css.paginationInfo"
+                                              :noDataTemplate="paginationNoDataTemplate"
+                                              :infoTemplate="paginationInfoTemplate">
+                    </vuetable-pagination-info>
                 </div>
-
             </div>
             <div class="fade "
                  :class="{'modal-backdrop show' : loadingDataTable }"
@@ -359,8 +363,8 @@
                 multiSort: true,
                 searchFor: null,
                 perPage: 10,
-                paginationInfoTemplate: 'แสดง {from} ถึง {to} จากทั้งหมด {total} รายการ',
-                paginationNoDataTemplate: 'ไม่มีข้อมูลที่เกี่ยวข้อง',
+                paginationInfoTemplate: 'page {from} of {to} pages ({total}) items',
+                paginationNoDataTemplate: 'NoData',
                 appendParams: {},
                 role11:[1,3],
                 fields: tableColumns,
@@ -454,107 +458,111 @@
                 this.$refs.vuetable.changePage(page)
             },
             //update
-            editRow(action,rowData) {
+              editRow(action, rowData) {
 
-                if (action == 'edit-item') {
+                  if (action == 'edit-item') {
+                      var win = window.open('/ChemistryDetail/CustomIndex?id=' + rowData.ID + '&UpdateStatus=' + false, '_blank');
+                      if (win) {
+                          //Browser has allowed it to be opened
+                          win.focus();
+                      }
 
-                    this.editData.editid = rowData.ProuductId;
-                    this.editData.edit_ProductName = rowData.ProductName;
-                    this.editData.edit_Price = rowData.Price;
-                    this.editData.edit_Item1 = rowData.Item1;
-                    this.editData.edit_Amount = rowData.Amount;
-                    this.showModalEdit = true;
+                  }
+                  else {
+                      this.editData.ID = rowData.ID;
+                      this.showModalDelete = true;
 
-                }
-                else {
-                    this.editData.editid = rowData.ProuductId;
+                  }
 
-                    this.showModalDelete = true;
+              },
+              detailRow(action, rowData) {
+                  var win = window.open('/ChemistryDetail/CustomIndex?id=' + rowData.ID + '&UpdateStatus=' + true, '_blank');
+                  if (win) {
+                      //Browser has allowed it to be opened
+                      win.focus();
+                  }
 
-                }
+              },
+              deleteRow(action, rowData) {
+                  window.alert("Are you sure delete?")
+                  var temp = { ID: rowData.ID }
+                  $.ajax({
+                      type: 'POST',
+                      url: '/ChemistryDetail/DeleteChemistryDetail?receive=' + JSON.stringify(temp),
+                      processData: false,
+                      contentType: false,
+                      cache: false,
+                      enctype: 'multipart/form-data',
+                      success: data => {
+                          if (data.status == 2) {
+                              this.$refs.vuetable.refresh()
+                          } else {
+                              alert(data.message)
+                          }
 
-            },
-            detailRow(action, rowData) {
-                alert("detail")
-                this.editData.editid = rowData.ProuductId;
-                this.editData.edit_ProductName = rowData.ProductName;
-                this.editData.edit_Price = rowData.Price;
-                this.editData.edit_Item1 = rowData.Item1;
-                this.editData.edit_Amount = rowData.Amount;
-                this.showModalDetail = true;
-
-            }
-            ,
-            addbrand () {
-                this.showModalAdd = true;
-            },
-            getSex: function (value) {
-                if (value === true) {
-                    return 'Female'
-                } else {
-                    return 'Male';
-                }
-
-            },
-            getuserType: function (value) {
-                return userType[value];
-            }
-
+                      },
+                      error: function (err) {
+                          alert(err.message)
+                          console.log(err);
+                      }
+                  });
+              },
+              addbrand() {
+                  this.showModalAdd = true;
+              },
+              Tostring: function (value) {
+                  return "Part " + value;
+              },
+              ChangePath: function (value) {
+                  var url = "http://localhost:45706/" + value;
+                  return '<a href="' + url + '" target="_blank" >' + url + '</a>';
+              },
+              ChapterTostring: function (value) {
+                  return "Chapter " + value;
+              }
         }
         });
 
     var tableColumns = [
-                {
-                    name: 'id',
-                    title: ' id',
-                    sortfield: 'id',
-                    visible:false
-                }
-                , {
-                    name: 'FirstName',
-                    title: 'First Name',
-                    sortfield: 'FirstName'
-                },
-                {
-                    name: 'LastName',
-                    title: 'Last Name',
-                    sortfield: 'LastName'
-                },
-                {
-                    name: 'Email',
-                    title: 'email',
-                    sortfield: 'email'
-                },
-                {
-                    name: 'UserType',
-                    title: 'Usertype',
-                    sortfield: 'UserType',
-                    callback: 'getuserType'
+        {
+            name: 'ID',
+            title: ' id',
+            sortField: 'ID',
+            visible: false
+        }
+        , {
+            name: 'Chapter',
+            title: 'Chapter',
+            sortField: 'Chapter',
+            callback: 'ChapterTostring'
+        }
+        , {
+            name: 'Part',
+            title: 'Part',
+            sortField: 'Part',
+            callback: 'Tostring'
         },
         {
-            name: 'Sex',
-            title: 'Sex',
-            sortfield: 'Sex',
-            callback: 'getSex'
+            name: 'Title',
+            title: 'Title',
+            sortField: 'Title'
         },
         {
-            name: 'PersonalContactNumber',
-            title: 'personal contactnumber',
-            sortfield: 'PersonalContactNumber'
+            name: 'Teachear_Name',
+            title: 'Teachear_Name',
+            sortField: 'Teachear_Name',
         },
         {
-            name: 'OtherContactNumber',
-            title: 'Other contactnumber',
-            sortfield: 'OtherContactNumber'
+            name: 'Video_Path',
+            title: 'Video Url',
+            sortField: 'Video_Path',
+            callback: 'ChangePath'
         },
-                {
-                    name: '__slot:actions',
-                    title: 'actions'
+        {
+            name: '__slot:actions',
+            title: 'actions'
 
-                }
-    ]
-    var userType = ['Admin', 'SuperMember','Member']
-
+        }]
        Vue.component('v-porduct-edit', {
         template: "#porduct-edit-template",
         props:
@@ -579,13 +587,13 @@
                 var that = this;
                 var temp =
                 {
-                        ProductId: that.value.editid,
-                        ProductName: that.value.edit_ProductName,
-                        Price: that.value.edit_Price,
-                        Item1: that.value.edit_Item1,
-                        Amount: that.value.edit_Amount,
+                    ProductId: that.value.editid,
+                    ProductName: that.value.edit_ProductName,
+                    Price: that.value.edit_Price,
+                    Item1: that.value.edit_Item1,
+                    Amount: that.value.edit_Amount,
 
-                    }
+                }
 
                 that.$http.put('@Url.Action("cpmUpdateProduct", "Product")', { receive: JSON.stringify(temp) })
                     .then(response => {

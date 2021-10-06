@@ -23,29 +23,41 @@ namespace SP_SanHtarWebPage.Controllers
             return View();
         }
 
+        public IActionResult CustomIndex()
+        {
+            return View();
+        }
+
         [HttpPost, ActionName("InsertUser")]
         public async Task<JsonResult> PostUser(string receive)
         {
             try
             {
+                string path = "";
+                string fileName = "";
                 dynamic jsData = JsonConvert.DeserializeObject(receive.ToString());
-                var files = Request.Form.Files[0];
-                string wwwPath = this._hostingEnvironment.WebRootPath;
-                string contentPath = this._hostingEnvironment.ContentRootPath;
-
-                string path = Path.Combine(this._hostingEnvironment.WebRootPath, "Uploads");
-                if (!Directory.Exists(path))
+                if (Request.ContentType != null && Request.Form.Files.Count > 0)
                 {
-                    Directory.CreateDirectory(path);
-                }
+                    var files = Request.Form.Files[0];
+                    string wwwPath = this._hostingEnvironment.WebRootPath;
+                    string contentPath = this._hostingEnvironment.ContentRootPath;
 
-                string fileName = Path.GetFileName(files.FileName);
-                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
-                {
-                    files.CopyTo(stream);
+                    path = Path.Combine(this._hostingEnvironment.WebRootPath, "Uploads");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    fileName = Path.GetFileName(files.FileName);
+                    using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                    {
+                        files.CopyTo(stream);
+                    }
+                    path = path + @"\" + fileName;
                 }
                 var commonData = new UserModel
                 {
+                    ID=jsData.ID,
                     FirstName = jsData.FirstName,
                     LastName = jsData.LastName,
                     UserType = jsData.UserType,
@@ -54,22 +66,32 @@ namespace SP_SanHtarWebPage.Controllers
                     Email = jsData.Email,
                     PersonalContactNumber = jsData.PersonalContactNumber,
                     OtherContactNumber = jsData.OtherContactNumber,
-                    Sex = jsData.Sex == "1" ? false : true,
+                    Sex = jsData.Sex,
                     PartID = jsData.PartID,
                     ChemistryID = jsData.ChemistryID,
-                    PhotoUrl = path + @"\" + fileName,
+                    PhotoUrl = path,
                 };
-                var result = await WebApiClient.Instance.PostAsyncForR<ResponseList>("/api/User/AddUser", commonData);
-                return Json(new
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/AddUser", commonData);
+                if (result.Status == APIStatus.Successfull)
                 {
-                    status = "2" //PASS
-                });
+                    return Json(new
+                    {
+                        status = "2", //PASS
+                        result.Data
+                    }) ;
+                }
+                else
+                {
+                    throw new Exception(result.Message);
+                }
+
             }
             catch (Exception ex)
             {
                 return Json(new
                 {
-                    status = "3" //FAIL
+                    status = "3", //FAIL
+                    message = ex.Message
                 });
             }
         }
@@ -82,10 +104,10 @@ namespace SP_SanHtarWebPage.Controllers
             try
             {
                 //==============================================Query============================================================
-                var result = await WebApiClient.Instance.PostAsync<ResponseList>("/api/User/GetAllUser", tempData);
-                return Json(result.Data);
+                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<UserModel>,UserModel>("/api/User/GetAllUser", tempData);
+               return Json(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -103,7 +125,129 @@ namespace SP_SanHtarWebPage.Controllers
             {
                 return Json(ex.Message);
             }
-           
+
+        }
+
+        [HttpPost, ActionName("GetbyId")]
+        public async Task<JsonResult> GetbyId(string receive)
+        {
+            try
+            {
+                dynamic jsData = JsonConvert.DeserializeObject(receive.ToString());
+
+
+                var commonData = new UserModel
+                {
+                    ID = jsData.ID
+                };
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/GetbyID", commonData);
+                if (result.Status == APIStatus.Successfull)
+                {
+                    return Json(new
+                    {
+                        status = "2",//Pass
+                        result.Data
+                    }) ;
+                }
+                else
+                {
+                    throw new Exception(result.Message);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = "3", //FAIL
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpPost, ActionName("DeleteUser")]
+        public async Task<JsonResult> DeleteUser(string receive)
+        {
+            try
+            {
+                dynamic jsData = JsonConvert.DeserializeObject(receive.ToString());
+                var commonData = new UserModel
+                {
+                    ID = jsData.ID
+                };
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/DeleteUser", commonData);
+                if (result.Status == APIStatus.Successfull)
+                {
+                    return Json(new
+                    {
+                        status = "2",//Pass
+                    });
+                }
+                else
+                {
+                    throw new Exception(result.Message);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = "3", //FAIL
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet, ActionName("GetAllRecoverUser")]
+        public async Task<JsonResult> GetAllRecoverUser(TableSearchClass tempData)
+        {
+
+            try
+            {
+                //==============================================Query============================================================
+                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<UserModel>, UserModel>("/api/User/RecoverUser", tempData);
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost, ActionName("RestoreUser")]
+        public async Task<JsonResult> RestoreUser(string receive)
+        {
+            try
+            {
+                dynamic jsData = JsonConvert.DeserializeObject(receive.ToString());
+                var commonData = new UserModel
+                {
+                    ID = jsData.ID,
+                    UserName=jsData.UserName
+                };
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/RestoreUser", commonData);
+                if (result.Status == APIStatus.Successfull)
+                {
+                    return Json(new
+                    {
+                        status = "2",//Pass
+                    });
+                }
+                else
+                {
+                    throw new Exception(result.Message);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = "3", //FAIL
+                    message = ex.Message
+                });
+            }
         }
     }
 }

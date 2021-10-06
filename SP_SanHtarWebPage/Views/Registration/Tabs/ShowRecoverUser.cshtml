@@ -1,0 +1,328 @@
+﻿
+<script id="recover-user-template" type="text/template">
+    <div>
+        <br />
+        <br />
+        <div class="card scb-card">
+            <div class="card-header bg-primary">
+                <p class="m-0">
+                    <i class="fa fa-dribbble"></i> All User Info
+                </p>
+            </div>
+            <div class="card-header scb-card-header font-kanit-light">
+                @*<p class="scb-table-name"><label style="margin-bottom: 0px;">Registration User List</label> {{perPage}} <label style="margin-bottom: 0px;" lang="th">Pages</label></p>*@
+                <div class="scb-table-count"><p class="scb-table-count-left">Show<input type="text" value="10" class="scb-table-count-input" v-model="perPage">Pages</p></div>
+                <div class="input-group scb-table-search">
+                    <input type="text" placeholder="Serach UserName" class="form-control" v-model="text_brand">
+                    <span class="input-group-append"><button type="button" class="btn success" v-on:click="onFilterSet(text_brand)"><i class="fa fa-search"></i></button></span>
+                </div>
+            </div>
+
+
+            <div id="v-Comp-Body">
+                <div id="table-wrapper" class="card-body scb-card-body table-responsive">
+                    <vuetable ref="vuetable"
+                              api-url="@Url.Action("GetAllRecoverUser", "Registration")"
+                              :fields="fields"
+                              :sort-order="sortOrder"
+                              :css="css.table"
+                              pagination-path=""
+                              :append-params="appendParams"
+                              :per-page="perPage"
+                              v-on:vuetable:loading="onLoading"
+                              v-on:vuetable:loaded="onLoaded"
+                              v-on:vuetable:pagination-data="onPaginationData">
+                        <template slot="actions" scope="props">
+                            <div class="table-button-container">
+                                <a style="cursor:pointer;padding-right:20px" v-on:click="restroeRow('delete-item',props.rowData)">
+                                    <i class="fa fa-window-restore text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
+                                    Restore
+                                </a>
+                               
+                            </div>
+                        </template>
+                    </vuetable>
+                </div>
+            </div>
+            <div id="v-Comp-Footer" style="margin-top: 20px;">
+                <div class="vuetable-pagination ui basic grid">
+                    <vuetable-pagination ref="pagination"
+                                         :css="css.pagination"
+                                         v-on:vuetable-pagination:change-page="onChangePage">
+                    </vuetable-pagination>
+                    <vuetable-pagination-info style="padding-top: 8px;"
+                                              ref="paginationInfo"
+                                              :css="css.paginationInfo"
+                                              :noDataTemplate="paginationNoDataTemplate"
+                                              :infoTemplate="paginationInfoTemplate">
+                    </vuetable-pagination-info>
+                </div>
+            </div>
+            <div :class="{'modal-backdrop show' : loadingDataTable }"
+                 :style="{'position' : (loadingDataTable ? 'absolute': '') ,'right' : (loadingDataTable ? '5px': ''),'left' : (loadingDataTable ? '5px': ''),'cursor' : (loadingDataTable ? 'wait': ''),'z-index' : (loadingDataTable ? '9': '') }">
+                <i v-if="loadingDataTable"
+                   class="fa fa-refresh fa-spin fa-3x fa-fw"
+                   style="color:white;position:absolute;top: 45%;left: 45%;transform: translate(-50%, -50%)"></i>
+            </div>
+            <v-user-edit v-if="showModalEdit" v-on:close="showModalEdit = false" v-model="editData"></v-user-edit>
+            <v-user-delete v-if="showModalDelete" v-on:close="showModalDelete = false" v-model="editData"></v-user-delete>
+            <v-user-detail v-if="showModalDetail" v-on:close="showModalDetail = false" v-model="editData"></v-user-detail>
+        </div>
+    </div>
+
+
+</script>
+
+<script>
+    Vue.component('v-recover-user', {
+        template: "#recover-user-template",
+        components: {
+            'vuetable-pagination': Vuetable.VuetablePagination
+
+        },
+        watch: {
+            perPage: function (val) {
+                var that = this;
+                Vue.nextTick(function () { that.$refs.vuetable.refresh() })
+            },
+            searchFor: function (val) {
+                this.onFilterSet(val);
+            },
+        },
+        mounted() {
+            this.$on('refresh-badge', () => {
+                this.$refs.vuetable.refresh()
+            });
+            this.$nextTick(() => {
+                this.$refs.vuetable.normalizeFields();
+            });
+        },
+        data() {
+
+            return {
+                loadingDataTable: false,
+                editData:
+                {
+                    ID: '',
+                    UserName: '',
+                    FirstName: '',
+                    LastName: '',
+                    Email: '',
+                    UserType: '',
+                    Sex: '',
+                    PersonalContactNumber: '',
+                    OtherContactNumber: '',
+                    //Chapterdata=[],
+
+                },
+                text_brand: "",
+                showModalEdit: false,
+                showModalAdd: false,
+                showModalDelete: false,
+                showModalDetail: false,
+                fileName: undefined,
+                multiSort: true,
+                searchFor: null,
+                perPage: 10,
+                paginationInfoTemplate: 'page {from} of {to} pages ({total}) items',
+                paginationNoDataTemplate: 'NoData',
+                appendParams: {},
+                role11: [1, 3],
+                fields: tableColumns,
+                chapterId: 0,
+                Chapterdata: [],
+                sortOrder: [{
+                    field: 'UserID',
+                    direction: 'asc'
+                }],
+                css: {
+                    table: {
+                        tableClass: 'table-responsive w-100 d-block d-md-table table-bordered table table-striped rounded-top',
+                        theadClass: 'table-bordered table table-striped rounded-top',
+                        loadingClass: 'fa fa-spinner fa-pulse fa-3x fa-fw',
+                        ascendingIcon: 'fa fa-chevron-circle-up',
+                        descendingIcon: 'fa fa-chevron-circle-down',
+                        handleIcon: 'fa fa-bars',
+                    },
+                    pagination: {
+                        infoClass: 'pull-left',
+                        wrapperClass: 'vuetable-pagination pull-right',
+                        activeClass: 'btn-danger color-white',
+                        disabledClass: 'Enabled',
+                        pageClass: 'btn btn-border cursor-pointer',
+                        linkClass: 'btn btn-border cursor-pointer',
+                        icons: {
+                            first: 'fa fa-angle-double-left fa-lg',
+                            prev: 'fa fa-chevron-circle-left fa-lg',
+                            next: 'fa fa-chevron-circle-right fa-lg',
+                            last: 'fa fa-angle-double-right fa-lg',
+                        },
+                        paginationInfo: {
+                            infoClass: 'pull-left',
+                            wrapperClass: 'vuetable-pagination pull-right',
+                            activeClass: 'btn-danger color-white',
+                        },
+                    }
+                }
+            }
+        },
+        computed: {
+            /*httpOptions(){
+              return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
+            },*/
+        },
+        methods: {
+
+            selectedRow() {
+                this.onRefresh();
+                var temp1 = this.$refs.vuetable.selectedTo;
+                // alert(temp1)
+            },
+
+            listMenuRole2: function (role, roleUser) {
+                var reject = false;
+                for (var i = 0; i < role.length; i++) {
+                    if (role[i] == roleUser) reject = true;
+                }
+                return reject;
+            },
+
+            onLoading() {
+                this.loadingDataTable = true;
+            },
+            onLoaded() {
+                this.loadingDataTable = false;
+            },
+            onFilterSet(filterText) {
+                var that = this;
+                that.appendParams.filter = filterText;
+                Vue.nextTick(function () { that.$refs.vuetable.refresh() })
+            },
+            onRefresh() {
+                var that = this;
+                that.$refs.vuetable.refresh()
+
+            },
+            loadedData() {
+                this.$refs.vuetable.selectedTo[1] //mark 1 as checked
+                //alert("checkselect")
+            },
+            onFilterReset() {
+                var that = this;
+                that.text_brand = null
+                delete that.appendParams.filter
+                Vue.nextTick(function () { that.$refs.vuetable.refresh() })
+            },
+            onPaginationData(paginationData) {
+
+                this.$refs.pagination.setPaginationData(paginationData)
+                this.$refs.paginationInfo.setPaginationData(paginationData)
+            },
+            onChangePage(page) {
+
+                this.$refs.vuetable.changePage(page)
+            },
+            //update
+            restroeRow(action, rowData) {
+                var temp =
+                {
+                    ID: rowData.ID,
+                    UserName: rowData.UserName
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/Registration/RestoreUser?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: data => {
+                        if (data.status == 2) {
+                            this.$refs.vuetable.refresh()
+                        } else {
+                            alert(data.message)
+                        }
+
+                    },
+                    error: function (err) {
+                        alert(err.message)
+                        console.log(err);
+                    }
+                });
+            },
+            addbrand() {
+                this.showModalAdd = true;
+            },
+            getSex: function (value) {
+                return sexType[value]
+
+            },
+            getuserType: function (value) {
+                return userType[value];
+            }
+
+        },
+        mounted() {
+            $.ajax({
+                url: "/Chemistry/GetChemistryDropdown",
+                success: codes => this.Chapterdata = codes,
+                error: err => console.log(err)
+            })
+        }
+    });
+
+    var tableColumns = [
+        {
+            name: 'id',
+            title: ' id',
+            sortField: 'id',
+            visible: false
+        }, {
+            name: 'UserName',
+            title: 'UserName',
+            sortField: 'UserName'
+        }
+        , {
+            name: 'FirstName',
+            title: 'First Name',
+            sortField: 'FirstName'
+        },
+        {
+            name: 'LastName',
+            title: 'Last Name',
+            sortField: 'LastName'
+        },
+        {
+            name: 'Email',
+            title: 'Email',
+            sortField: 'Email'
+        },
+        {
+            name: 'UserType',
+            title: 'Usertype',
+            sortField: 'UserType',
+            callback: 'getuserType'
+        },
+        {
+            name: 'Sex',
+            title: 'Sex',
+            sortField: 'Sex',
+            callback: 'getSex'
+        },
+        {
+            name: 'PersonalContactNumber',
+            title: 'Personal contactnumber',
+            sortField: 'PersonalContactNumber'
+        },
+        {
+            name: 'OtherContactNumber',
+            title: 'Other contactnumber',
+            sortField: 'OtherContactNumber'
+        },
+        {
+            name: '__slot:actions',
+            title: 'actions'
+
+        }
+    ]
+</script>

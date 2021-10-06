@@ -37,7 +37,7 @@
         </div>
         <div class="col-lg-12 col-md-12 col-12">
             <div class="collapse w-100" id="tabcollapse" v-for="item in arrTab">
-                <div class="col-lg-12 col-md-12 col-12" style="cursor:pointer;" v-on:click="active('item.text')" v-bind:class="{'bg-secondary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
+                <div class="col-lg-12 col-md-12 col-12" style="cursor:pointer;" v-on:click="active('item.text')" v-bind:class="{'bg-primary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
                     <p class="m-0 py-2">{{item.text}}</p>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="pn-ProductNav_Wrapper">
                     <nav class="pn-ProductNav" id="pnProductNav">
                         <div class="pn-ProductNav_Contents" id="pnProductNavContents" style="display: inline-flex;" v-for="item in arrTab">
-                            <div class="tab-top mr-1 text-center pt-3 px-3 pb-0" style="cursor:pointer;" v-on:click="active(item.text)" v-bind:class="{'bg-secondary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
+                            <div class="tab-top mr-1 text-center pt-3 px-3 pb-0" style="cursor:pointer;" v-on:click="active(item.text)" v-bind:class="{'bg-primary' : $root.tab == item.text,'bg-warning' : $root.tab != item.text}">
                                 <p class="m-0 mt-2">{{item.text}}</p>
                             </div>
                         </div>
@@ -59,6 +59,7 @@
                     <div class="col-lg-12 col-md-12 col-12 px-0 mt-md-0 mt-2">
                         <v-information-chemistry v-show="$root.tab == 'ShowAllChemistry'"></v-information-chemistry>
                         <v-add-chemistry v-show="$root.tab == 'AddChemistry'"></v-add-chemistry>
+                        <v-recover-chemistry v-show="$root.tab == 'ShowRecoverChapter'"></v-recover-chemistry>
                     </div>
                 </div>
             </div>
@@ -69,14 +70,14 @@
 
 @Html.Partial("~/Views/Chemistry/Tabs/AddChemistry.cshtml")
 @Html.Partial("~/Views/Chemistry/Tabs/ShowChemistry.cshtml")
-<script>  
+@Html.Partial("~/Views/Chemistry/Tabs/ShowRecoverChem.cshtml")
+<script>
 
     Vue.component('tab', {
         template: '#tab-template',
         data: function () {
             return {
-                price: [],
-                realprice: [],
+
                 arrTab: [
                     {
 
@@ -87,6 +88,12 @@
                     {
 
                         text: "ShowAllChemistry",
+                        no: "2",
+                        role: [1, 2, 3]
+                    },
+                    {
+
+                        text: "ShowRecoverChapter",
                         no: "4",
                         role: [1, 2, 3]
                     },
@@ -106,35 +113,13 @@
         },
         methods: {
             active: function (n) {
-                //$.ajax({
-                //    url: "/Product/GetPriceforProduct",
-                //    success: codes => this.price = codes,
-                //    error: err => console.log(err)
-                //})
-                // this.$children[2].resetdata();
-                //this.$children[2].refreshchart();
-                //this.$children[2].updatedata(this.price);
+
                 if (n == "ShowAllChemistry") {
-                    //this.$children[0].onRefresh();
+                    this.$children[0].onRefresh();
+                } else if (n == "ShowRecoverChapter") {
+                    this.$children[2].onRefresh();
                 }
-                //if (n == "ShowProductPIEChart") {
-                //    this.realprice = [];
-                //    $.ajax({
-                //        url: "/Product/GetPriceforProduct",
-                //        success: codes => this.price = codes,
-                //        error: err => console.log(err)
 
-                //    })
-                //    //for (var ip = 0; ip < this.price.length
-                //    //    ; ip++) {
-                //    //    this.realprice.push(this.price[ip])
-
-                //    //}
-                //    //this.$children[2].resetdata();
-                //    this.$children[2].updatedata(this.price);
-                //    this.$children[2].refreshchart(this.price);
-                //    // alert("GetPrice" + JSON.stringify(this.realprice))
-                //}
                 this.$parent.tab = n
             },
 
@@ -147,16 +132,7 @@
             }
         },
         mounted() {
-            this.realprice = [];
-            //$.ajax({
-            //    url: "/Product/GetPriceforProduct",
-            //    success: codes => this.price = codes,
-            //    error: err => console.log(err)
-            //})
-            //this.$children[2].refreshchart(this.price);
-            //this.$children[2].refreshchart(this.price);
-            //// this.realprice = ['43', '4'];
-            //alert("GetPrice" + JSON.stringify(this.realprice))
+
         }
     });
 

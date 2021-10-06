@@ -13,7 +13,7 @@
                     <div class="card shadow-box">
                         <div class="card-header bg-primary">
                             <p class="m-0">
-                                <i class="fa fa-dribbble"></i>
+                                <i class="fa fa-dribbble"></i>Add Chemistry Part
                             </p>
                         </div>
                         <div class="card-body bg-secondary">
@@ -142,6 +142,7 @@
                 }
                 var temp =
                 {
+                    ID:null,
                     Chapter: this.chapterId,
                     Part: this.Part,
                     Title: this.Title,
@@ -156,16 +157,22 @@
                     contentType: false,
                     data: data,
                     enctype: 'multipart/form-data',
+                    success: data => {
+                        if (data.status == 2) {
+                            alert("Chemistry Detail Form Save Sucessful !")
+                            that.chapterId = '';
+                            that.Title = '';
+                            that.Part = '';
+                            that.teacherName = '';
+                        } else {
+                            alert(data.message)
+                        }
+
+                    },
                     error: function (err) {
+                        alert(err.message)
                         console.log(err);
                     }
-                }).done(x => {
-                    alert("Chemistry Detail Form Save Successful !");
-                    that.chapterId = '';
-                    that.Title = '';
-                    that.Part = '';
-                    that.teacherName = '';
-                    //that.CallDropDown();
                 });
             },
             CancelData: function () {

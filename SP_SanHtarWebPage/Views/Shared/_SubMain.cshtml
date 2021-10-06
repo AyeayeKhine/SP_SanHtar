@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Shwe Online Class</title>
+    <link rel="icon" type="image/png" href="~/images/icons/sicon.png" />
+
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/Content/icon-css/css/fontawesome-all.css" />
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+    <link rel="stylesheet" href="~/Content/css/vuetable-2.css" />
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/vuetable-2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+   
+    <style>
+            @("@font-face { font-family: kanit-light; src: url(~/Content/fonts/Kanit-Light.ttf), url(Content/fonts/Kanit-Light.ttf);}")
+            @("@font-face { font-family: kanit-regular; src: url(~/Content/fonts/Kanit-Regular.ttf), url(Content/fonts/Kanit-Regular.ttf);}")
+    </style>
+   
+
+</head>
+<body>
+    @*<div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 menu-img"><img style="height:120px;margin-left:20px;margin-top:-25px" src="../icon/sicon.png" alt="" /></div>
+        <div class="col-lg-4"></div>
+    </div>*@
+    <div id="content">
+        @*<div class="container py-3">*@
+        @RenderBody()
+        @*</div>*@
+    </div>
+
+
+</body>
+</html>
+@*<script>
+    new Vue({
+        el: '#content',
+        data: {
+          
+        }
+    })
+   
+</script>*@

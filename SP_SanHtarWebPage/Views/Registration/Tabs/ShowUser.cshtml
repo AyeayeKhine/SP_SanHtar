@@ -1,5 +1,5 @@
 ﻿
-<script id="information-porduct-template" type="text/template">
+<script id="information-user-template" type="text/template">
     <div>
         <br />
         <br />
@@ -10,67 +10,71 @@
                 </p>
             </div>
             <div class="card-header scb-card-header font-kanit-light">
-                <p class="scb-table-name"><label style="margin-bottom: 0px;">Registration User List</label> {{perPage}} <label style="margin-bottom: 0px;" lang="th">Pages</label></p>
+                @*<p class="scb-table-name"><label style="margin-bottom: 0px;">Registration User List</label> {{perPage}} <label style="margin-bottom: 0px;" lang="th">Pages</label></p>*@
                 <div class="scb-table-count"><p class="scb-table-count-left">Show<input type="text" value="10" class="scb-table-count-input" v-model="perPage">Pages</p></div>
                 <div class="input-group scb-table-search">
-                    <input type="text" placeholder="Serach" class="form-control" v-model="text_brand">
-                    <span class="input-group-append"><button type="button" class="btn" v-on:click="onFilterSet(text_brand)"><i class="fa fa-search"></i></button></span>
+                    <input type="text" placeholder="Serach UserName" class="form-control" v-model="text_brand">
+                    <span class="input-group-append"><button type="button" class="btn success" v-on:click="onFilterSet(text_brand)"><i class="fa fa-search"></i></button></span>
                 </div>
             </div>
 
-            <div id="table-wrapper" class="card-body scb-card-body table-responsive">
-                <vuetable ref="vuetable"
-                          api-url="@Url.Action("GetAllUser", "Registration")"
-                          :fields="fields"
-                          :sort-order="sortOrder"
-                          track-by="ID"
-                          :css="css.table"
-                          pagination-path=""
-                          :append-params="appendParams"
-                          :per-page="perPage"
-                          v-on:vuetable:loading="onLoading"
-                          v-on:vuetable:loaded="onLoaded"
-                          v-on:vuetable:pagination-data="onPaginationData">
-                    <template slot="actions" scope="props">
-                        <div class="table-button-container">
-                            <a style="cursor:pointer" v-on:click="editRow('edit-item',props.rowData)">
-                                <i class="fa fa-pencil text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
-                                edit
-                            </a>
-                            <a style="cursor:pointer" v-on:click="editRow('delete-item',props.rowData)">
-                                <i class="fa fa-pencil text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
-                                delete
-                            </a>
-                            <a style="cursor:pointer" v-on:click="detailRow('detail-item',props.rowData)">
-                                <i class="fa fa-pencil text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
-                                detail
-                            </a>
-                        </div>
-                    </template>
-                </vuetable>
-            </div>
 
-            <div id="v-Comp-Footer" style="margin-top: 50px; margin-left: 50px;">
-                <div class="row">
-                    <div class="vuetable-pagination ui basic grid">
-                        <vuetable-pagination ref="pagination"
-                                             :css="css.pagination"
-                                             v-on:vuetable-pagination:change-page="onChangePage">
-                        </vuetable-pagination>
-                    </div>
+            <div id="v-Comp-Body">
+                <div id="table-wrapper" class="card-body scb-card-body table-responsive">
+                    <vuetable ref="vuetable"
+                              api-url="@Url.Action("GetAllUser", "Registration")"
+                              :fields="fields"
+                              :sort-order="sortOrder"
+                              :css="css.table"
+                              pagination-path=""
+                              :append-params="appendParams"
+                              :per-page="perPage"
+                              v-on:vuetable:loading="onLoading"
+                              v-on:vuetable:loaded="onLoaded"
+                              v-on:vuetable:pagination-data="onPaginationData">
+                        <template slot="actions" scope="props">
+                            <div class="table-button-container">
+                                <a style="cursor:pointer;padding-right:20px" v-on:click="editRow('edit-item',props.rowData)">
+                                    <i class="fa fa-edit text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal">
+                                    </i>
+                                    Edit
+                                </a>
+                                <a style="cursor:pointer;padding-right:20px" v-on:click="deleteRow('delete-item',props.rowData)">
+                                    <i class="fa fa-remove text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
+                                    Delete
+                                </a>
+                                <a style="cursor:pointer" v-on:click="detailRow('detail-item',props.rowData)">
+                                    <i class="fa fa-check text-pink" aria-hidden="true" data-toggle="modal" data-target="#staff-pc-manage-modal"></i>
+                                    Detail
+                                </a>
+                            </div>
+                        </template>
+                    </vuetable>
                 </div>
-
             </div>
-            <div class="fade "
-                 :class="{'modal-backdrop show' : loadingDataTable }"
+            <div id="v-Comp-Footer" style="margin-top: 20px;">
+                <div class="vuetable-pagination ui basic grid">
+                    <vuetable-pagination ref="pagination"
+                                         :css="css.pagination"
+                                         v-on:vuetable-pagination:change-page="onChangePage">
+                    </vuetable-pagination>
+                    <vuetable-pagination-info style="padding-top: 8px;"
+                                              ref="paginationInfo"
+                                              :css="css.paginationInfo"
+                                              :noDataTemplate="paginationNoDataTemplate"
+                                              :infoTemplate="paginationInfoTemplate">
+                    </vuetable-pagination-info>
+                </div>
+            </div>
+            <div :class="{'modal-backdrop show' : loadingDataTable }"
                  :style="{'position' : (loadingDataTable ? 'absolute': '') ,'right' : (loadingDataTable ? '5px': ''),'left' : (loadingDataTable ? '5px': ''),'cursor' : (loadingDataTable ? 'wait': ''),'z-index' : (loadingDataTable ? '9': '') }">
                 <i v-if="loadingDataTable"
                    class="fa fa-refresh fa-spin fa-3x fa-fw"
                    style="color:white;position:absolute;top: 45%;left: 45%;transform: translate(-50%, -50%)"></i>
             </div>
-            <v-porduct-edit v-if="showModalEdit" v-on:close="showModalEdit = false" v-model="editData"></v-porduct-edit>
-            <v-porduct-delete v-if="showModalDelete" v-on:close="showModalDelete = false" v-model="editData"></v-porduct-delete>
-            <v-porduct-detail v-if="showModalDetail" v-on:close="showModalDetail = false" v-model="editData"></v-porduct-detail>
+            <v-user-edit v-if="showModalEdit" v-on:close="showModalEdit = false" v-model="editData"></v-user-edit>
+            <v-user-delete v-if="showModalDelete" v-on:close="showModalDelete = false" v-model="editData"></v-user-delete>
+            <v-user-detail v-if="showModalDetail" v-on:close="showModalDetail = false" v-model="editData"></v-user-detail>
         </div>
     </div>
 
@@ -78,21 +82,21 @@
 </script>
 
 
-<script id="porduct-edit-template" type="text/template">
+<script id="user-edit-template" type="text/template">
     <div id="staff-pc-manage-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal" style="display: block;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-4">
-                                    <h5 class="modal-title">แก้ไขข้อมูล</h5>
+                        <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0 card-header bg-primary" style="margin-top:-17px;margin-left:-2px;margin-right:4px;">
+                            <div class="row " style="padding-top: 12px; padding-bottom: 12px">
+                                <div class="col-lg-6 col-md-3 col-4">
+                                    <h5 class="modal-title">Update User</h5>
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-7">
+                                <div class="col-lg-5 col-md-8 col-7">
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-1">
-                                    <button style="cursor:pointer " class="close" type="button" v-on:click="$emit('close')" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                                    <button style="cursor:pointer " class="close" type="button" @*v-on:click="$emit('close')"*@ data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
                                 </div>
                             </div>
                         </div>
@@ -102,11 +106,11 @@
                                 <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Product Name :</label>
+                                            <label>UserName :</label>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-8">
-                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.edit_ProductName" type="text" />
-                                            <label v-if="statusUpdate"> {{value.edit_ProductName}} </label>
+                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.UserName" type="text" />
+                                            <label v-if="statusUpdate"> {{value.UserName}} </label>
                                         </div>
                                     </div>
                                 </div>
@@ -114,11 +118,11 @@
                                 <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Price :</label>
+                                            <label>Frist Name :</label>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-8">
-                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.edit_Price" type="text" />
-                                            <label v-if="statusUpdate"> {{value.edit_Price}} </label>
+                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.FirstName" type="text" />
+                                            <label v-if="statusUpdate"> {{value.FirstName}} </label>
                                         </div>
                                     </div>
                                 </div>
@@ -126,11 +130,51 @@
                                 <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Item :</label>
+                                            <label>Last Name :</label>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-8">
-                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.edit_Item1" type="text" />
-                                            <label v-if="statusUpdate"> {{value.edit_Item1}} </label>
+                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.LastName" type="text" />
+                                            <label v-if="statusUpdate"> {{value.LastName}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label>Email :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-8">
+                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.Email" type="text" />
+                                            <label v-if="statusUpdate"> {{value.Email}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label>UserType :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-8">
+                                            <select v-if="!statusUpdate" class="form-control form-control-sm border-rad" v-model="value.UserType">
+                                                <option selected disabled>Select</option>
+                                                <option value="1">Admin</option>
+                                                <option value="2">SuperMember</option>
+                                                <option value="3">Member</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label>Sex :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-8">
+                                            <select v-if="!statusUpdate" class="form-control form-control-sm border-rad" v-model="value.Sex">
+                                                <option selected disabled>Select</option>
+                                                <option value="1">Female</option>
+                                                <option value="2">Male</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -138,24 +182,47 @@
                                 <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Amount :</label>
+                                            <label>Personal Contact Number :</label>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-8">
-                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.edit_Amount" type="text" />
-                                            <label v-if="statusUpdate"> {{value.edit_Amount}} </label>
+                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.PersonalContactNumber" type="text" />
+                                            <label v-if="statusUpdate"> {{value.PersonalContactNumber}} </label>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label>Other Contact Number :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-8">
+                                            <input v-if="!statusUpdate" class="form-control border-danger" v-model="value.OtherContactNumber" type="text" />
+                                            <label v-if="statusUpdate"> {{value.OtherContactNumber}} </label>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label>Chapter :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-8">
+                                            <select v-model="value.ChemistryID" class="form-control form-control-sm border-rad" v-on:change="onChange($event)" multiple>
+                                                <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row" style=" margin-top: 25px;">
                                     <div class="col-lg-10 col-md-10 col-12 mx-auto">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-6">
-                                                <button class="btn btn-secondary w-100" style="cursor:pointer" v-on:click="$emit('close')">ยกเลิก</button>
+                                                <button class="btn btn-secondary w-200" style="cursor:pointer" v-on:click="$emit('close')" data-dismiss="modal">Close</button>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-6">
-                                                <button class="btn btn-danger w-100" style="cursor:pointer" v-on:click="onClickBrand">บันทึก</button>
+                                                <button class="btn btn-danger w-200" style="cursor:pointer" v-on:click="onClickBrand">Save</button>
                                             </div>
                                         </div>
                                     </div>
@@ -170,7 +237,7 @@
 
 </script>
 
-<script id="porduct-delete-template" type="text/template">
+<script id="user-delete-template" type="text/template">
     <div id="staff-pc-manage-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal" style="display: block;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -221,7 +288,7 @@
     </div>
 </script>
 
-<script id="porduct-detail-template" type="text/template">
+<script id="user-detail-template" type="text/template">
     <div id="staff-pc-manage-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal" style="display: block;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -230,7 +297,7 @@
                         <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0">
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-4">
-                                    <h5 class="modal-title">แก้ไขข้อมูล</h5>
+                                    <h5 class="modal-title">Detail</h5>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-7">
                                 </div>
@@ -242,64 +309,97 @@
                         <div class="col-lg-12 col-md-12 col-12 py-2 pb-4">
                             <div class="row">
 
-                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Product Name :</label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>UserName :</label>
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-8">
-
-                                            <label> {{value.edit_ProductName}} </label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.UserName}} </label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Price :</label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>Frist Name :</label>
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-8">
-
-                                            <label> {{value.edit_Price}} </label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.FirstName}} </label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Item :</label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>Last Name :</label>
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-8">
-
-                                            <label> {{value.edit_Item1}} </label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.LastName}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>Email :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.Email}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>UserType :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.UserType}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>Sex :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.Sex}} </label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12 col-md-12 col-12 py-1" style=" margin-top: 10px;">
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-4">
-                                            <label>Amount :</label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>Personal Contact Number :</label>
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-8">
-
-                                            <label> {{value.edit_Amount}} </label>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.PersonalContactNumber}} </label>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-lg-12 col-md-12 col-12 py-2 border border-bottom-1 border-top-0 border-left-0 border-right-0" style=" margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label>Other Contact Number :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-6">
+                                            <label> {{value.OtherContactNumber}} </label>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row" style=" margin-top: 25px;">
                                     <div class="col-lg-10 col-md-10 col-12 mx-auto">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-6">
-                                                <button class="btn btn-secondary w-100" style="cursor:pointer" v-on:click="$emit('close')">ยกเลิก</button>
+                                                <button class="btn btn-secondary w-200" style="cursor:pointer" v-on:click="$emit('close')">Close</button>
                                             </div>
-                                            @*<div class="col-lg-6 col-md-6 col-6">
-                                                    <button class="btn btn-danger w-100" style="cursor:pointer" v-on:click="onClickBrand">บันทึก</button>
-                                                </div>*@
                                         </div>
                                     </div>
                                 </div>
@@ -314,8 +414,8 @@
 </script>
 
 <script>
-    Vue.component('v-information-porduct', {
-        template: "#information-porduct-template",
+    Vue.component('v-information-user', {
+        template: "#information-user-template",
         components: {
             'vuetable-pagination': Vuetable.VuetablePagination
 
@@ -343,11 +443,16 @@
                 loadingDataTable: false,
                 editData:
                 {
-                    editid: '',
-                    edit_ProductName: '',
-                    edit_Price: '',
-                    edit_Item1: '',
-                    edit_Amount: '',
+                    ID: '',
+                    UserName: '',
+                    FirstName: '',
+                    LastName: '',
+                    Email: '',
+                    UserType: '',
+                    Sex: '',
+                    PersonalContactNumber: '',
+                    OtherContactNumber: '',
+                    //Chapterdata=[],
 
                 },
                 text_brand: "",
@@ -359,14 +464,15 @@
                 multiSort: true,
                 searchFor: null,
                 perPage: 10,
-                paginationInfoTemplate: 'แสดง {from} ถึง {to} จากทั้งหมด {total} รายการ',
-                paginationNoDataTemplate: 'ไม่มีข้อมูลที่เกี่ยวข้อง',
+                paginationInfoTemplate: 'page {from} of {to} pages ({total}) items',
+                paginationNoDataTemplate: 'NoData',
                 appendParams: {},
                 role11:[1,3],
                 fields: tableColumns,
-
+                chapterId: 0,
+                Chapterdata: [],
                 sortOrder: [{
-                    field: 'ID',
+                    field: 'UserID',
                     direction: 'asc'
                 }],
                 css: {
@@ -392,6 +498,9 @@
                             last: 'fa fa-angle-double-right fa-lg',
                         },
                         paginationInfo: {
+                            infoClass: 'pull-left',
+                            wrapperClass: 'vuetable-pagination pull-right',
+                            activeClass: 'btn-danger color-white',
                         },
                     }
                 }
@@ -404,7 +513,7 @@
         },
           methods: {
 
-              selectedRow() {
+          selectedRow() {
                   this.onRefresh();
               var temp1 = this.$refs.vuetable.selectedTo;
              // alert(temp1)
@@ -454,52 +563,97 @@
                 this.$refs.vuetable.changePage(page)
             },
             //update
-            editRow(action,rowData) {
+              editRow(action, rowData) {
 
-                if (action == 'edit-item') {
+                  if (action == 'edit-item') {
 
-                    this.editData.editid = rowData.ProuductId;
-                    this.editData.edit_ProductName = rowData.ProductName;
-                    this.editData.edit_Price = rowData.Price;
-                    this.editData.edit_Item1 = rowData.Item1;
-                    this.editData.edit_Amount = rowData.Amount;
-                    this.showModalEdit = true;
+                      //this.editData.ID = rowData.ID;
+                      //this.editData.UserName = rowData.UserName;
+                      //this.editData.FirstName = rowData.FirstName;
+                      //this.editData.LastName = rowData.LastName;
+                      //this.editData.Email = rowData.Email;
+                      //this.editData.Sex = rowData.Sex;
+                      //this.editData.UserType = rowData.UserType;
+                      //this.editData.PersonalContactNumber = rowData.PersonalContactNumber;
+                      //this.editData.OtherContactNumber = rowData.OtherContactNumber;
+                      //this.editData.ChemistryID = rowData.ChemistryID;
+                      ////this.editData.Chapterdata= this.Chapterdata;
+                      //this.showModalEdit = true;
+                      var win = window.open('/Registration/CustomIndex?id=' + rowData.ID + '&UpdateStatus=' + false, '_blank');
+                      if (win) {
+                          //Browser has allowed it to be opened
+                          win.focus();
+                      }
 
-                }
-                else {
-                    this.editData.editid = rowData.ProuductId;
+                  }
+                  else {
+                      this.editData.ID = rowData.ID;
+                      this.showModalDelete = true;
 
-                    this.showModalDelete = true;
+                  }
 
-                }
+              },
+              detailRow(action, rowData) {
 
-            },
-            detailRow(action, rowData) {
-                alert("detail")
-                this.editData.editid = rowData.ProuductId;
-                this.editData.edit_ProductName = rowData.ProductName;
-                this.editData.edit_Price = rowData.Price;
-                this.editData.edit_Item1 = rowData.Item1;
-                this.editData.edit_Amount = rowData.Amount;
-                this.showModalDetail = true;
+                  //this.editData.ID = rowData.ID;
+                  //this.editData.UserName = rowData.UserName;
+                  //this.editData.FirstName = rowData.FirstName;
+                  //this.editData.LastName = rowData.LastName;
+                  //this.editData.Email = rowData.Email;
+                  //this.editData.Sex = sexType[rowData.Sex];
+                  //this.editData.UserType = userType[rowData.UserType];
+                  //this.editData.PersonalContactNumber = rowData.PersonalContactNumber;
+                  //this.editData.OtherContactNumber = rowData.OtherContactNumber;
+                  //this.showModalDetail = true;
+                  var win = window.open('/Registration/CustomIndex?id=' + rowData.ID + '&UpdateStatus=' + true, '_blank');
+                  if (win) {
+                      //Browser has allowed it to be opened
+                      win.focus();
+                  }
 
-            }
-            ,
+              },
+              deleteRow(action, rowData) {
+                  window.alert("Are you sure delete?")
+                  var temp = { ID: rowData.ID }
+                  $.ajax({
+                      type: 'POST',
+                      url: '/Registration/DeleteUser?receive=' + JSON.stringify(temp),
+                      processData: false,
+                      contentType: false,
+                      cache: false,
+                      enctype: 'multipart/form-data',
+                      success: data => {
+                          if (data.status == 2) {
+                              this.$refs.vuetable.refresh()
+                          } else {
+                              alert(data.message)
+                          }
+
+                      },
+                      error: function (err) {
+                          alert(err.message)
+                          console.log(err);
+                      }
+                  });
+              },
             addbrand () {
                 this.showModalAdd = true;
             },
             getSex: function (value) {
-                if (value === true) {
-                    return 'Female'
-                } else {
-                    return 'Male';
-                }
+                  return sexType[value]
 
             },
             getuserType: function (value) {
                 return userType[value];
             }
 
+        },
+        mounted() {
+            $.ajax({
+                url: "/Chemistry/GetChemistryDropdown",
+                success: codes => this.Chapterdata = codes,
+                error: err => console.log(err)
+            })
         }
         });
 
@@ -507,45 +661,49 @@
                 {
                     name: 'id',
                     title: ' id',
-                    sortfield: 'id',
+            sortField: 'id',
                     visible:false
-                }
+        }, {
+            name: 'UserName',
+            title: 'UserName',
+            sortField: 'UserName'
+        }
                 , {
                     name: 'FirstName',
                     title: 'First Name',
-                    sortfield: 'FirstName'
+                    sortField: 'FirstName'
                 },
                 {
                     name: 'LastName',
                     title: 'Last Name',
-                    sortfield: 'LastName'
+                    sortField: 'LastName'
                 },
                 {
                     name: 'Email',
-                    title: 'email',
-                    sortfield: 'email'
+                    title: 'Email',
+                    sortField: 'Email'
                 },
                 {
                     name: 'UserType',
                     title: 'Usertype',
-                    sortfield: 'UserType',
+                    sortField: 'UserType',
                     callback: 'getuserType'
         },
         {
             name: 'Sex',
             title: 'Sex',
-            sortfield: 'Sex',
+            sortField: 'Sex',
             callback: 'getSex'
         },
         {
             name: 'PersonalContactNumber',
-            title: 'personal contactnumber',
-            sortfield: 'PersonalContactNumber'
+            title: 'Personal contactnumber',
+            sortField: 'PersonalContactNumber'
         },
         {
             name: 'OtherContactNumber',
             title: 'Other contactnumber',
-            sortfield: 'OtherContactNumber'
+            sortField: 'OtherContactNumber'
         },
                 {
                     name: '__slot:actions',
@@ -553,10 +711,12 @@
 
                 }
     ]
-    var userType = ['Admin', 'SuperMember','Member']
 
-       Vue.component('v-porduct-edit', {
-        template: "#porduct-edit-template",
+    var userType = ['', 'Admin', 'SuperMember', 'Member']
+    var sexType = ['', 'Female', 'Male']
+
+       Vue.component('v-user-edit', {
+        template: "#user-edit-template",
         props:
         {
             value: { text: null }
@@ -608,10 +768,17 @@
                         that.statusReject = "3";
                 });
             }
-        }
+           },
+           mounted() {
+               $.ajax({
+                   url: "/Chemistry/GetChemistryDropdown",
+                   success: codes => this.Chapterdata = codes,
+                   error: err => console.log(err)
+               })
+           }
             });
-            Vue.component('v-porduct-delete', {
-                template: "#porduct-delete-template",
+       Vue.component('v-user-delete', {
+                template: "#user-delete-template",
         props:
         {
             value: { text: null }
@@ -631,7 +798,7 @@
                 var that = this;
                 var temp =
                 {
-                        ProductId: that.value.editid,
+                        ID: that.value.ID,
 
                     }
 
@@ -662,8 +829,8 @@
        });
 
 
-       Vue.component('v-porduct-detail', {
-        template: "#porduct-detail-template",
+       Vue.component('v-user-detail', {
+        template: "#user-detail-template",
         props:
         {
             value: { text: null }
@@ -671,16 +838,11 @@
         data()
         {
             return {
-                //statusUpdate: false,
-                //statusResult: false,
-                //statusReject: 1,
-                //checkedNames: [],
-                //selected_role:''
             }
         },
         methods: {
 
         }
             });
-        Vue.use(Vuetable);
+       Vue.use(Vuetable);
 </script>

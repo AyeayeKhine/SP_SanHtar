@@ -97,42 +97,50 @@ namespace SP_SanHtar.Views.LoginViews
 
         private async void Login_Clicked(object sender, EventArgs e)
         {
-            UserModel userModel = await _repository.GetUser(Username.Text, Password.Text);
-            if (userModel != null)
+            try
             {
-                // await Navigation.PushAsync(new Views.HomeViews.HomePage());
-                Helpers.Settings.LoginData = userModel;
-                masterDetail.MasterBehavior = MasterBehavior.Popover;
-                masterDetail.IsPresented = false;
-                masterDetail.Detail = new Xamarin.Forms.NavigationPage(new Views.HomeViews.HomePage());
-                App.Current.MainPage = masterDetail;
-            }
-            else
-            {
-                if (checkConnection)
+                UserModel userModel = await _repository.GetUser(Username.Text, Password.Text);
+                if (userModel != null)
                 {
-                    var result = await WebApiClient.Instance.SignInAsync<ResponseModel>("/api/User/Login/" + Username.Text + "/"+ Password.Text);
-                    if(result.Status == 0)
-                    {
-                        userModel = result.Data;
-                        _repository.Insert(userModel);
-                        Helpers.Settings.LoginData = userModel;
-                        masterDetail.MasterBehavior = MasterBehavior.Popover;
-                        masterDetail.IsPresented = false;
-                        masterDetail.Detail = new Xamarin.Forms.NavigationPage(new Views.HomeViews.HomePage());
-                        App.Current.MainPage = masterDetail;
-                    }
-                    else
-                    {
-                        DisplayAlert(result.Message, "Error", "OK");
-                    }
-                  
+                    // await Navigation.PushAsync(new Views.HomeViews.HomePage());
+                    Helpers.Settings.LoginData = userModel;
+                    masterDetail.MasterBehavior = MasterBehavior.Popover;
+                    masterDetail.IsPresented = false;
+                    masterDetail.Detail = new Xamarin.Forms.NavigationPage(new Views.HomeViews.HomePage());
+                    App.Current.MainPage = masterDetail;
                 }
                 else
                 {
-                    DisplayAlert("Netwrok", "No Inernet Access", "OK");
+                    if (checkConnection)
+                    {
+                        var result = await WebApiClient.Instance.SignInAsync<ResponseModel>("/api/User/Login/" + Username.Text + "/" + Password.Text);
+                        if (result.Status == 0)
+                        {
+                            userModel = result.Data;
+                            await _repository.Insert(userModel);
+                            Helpers.Settings.LoginData = userModel;
+                            masterDetail.MasterBehavior = MasterBehavior.Popover;
+                            masterDetail.IsPresented = false;
+                            masterDetail.Detail = new Xamarin.Forms.NavigationPage(new Views.HomeViews.HomePage());
+                            App.Current.MainPage = masterDetail;
+                        }
+                        else
+                        {
+                            await DisplayAlert(result.Message, "Error", "OK");
+                        }
+
+                    }
+                    else
+                    {
+                        await DisplayAlert("Netwrok", "No Inernet Access", "OK");
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
+           
             
         }
         private async void FingerPrint_Tapped(object sender, EventArgs e)

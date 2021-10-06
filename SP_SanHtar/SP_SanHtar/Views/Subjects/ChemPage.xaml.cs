@@ -33,7 +33,8 @@ namespace SP_SanHtar.Views.Subjects
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    var result = await WebApiClient.Instance.GetListAsync<ResponseModel>("/api/Chemistry/GetAll",null);
+                    Guid ID = Helpers.Settings.LoginData.ID;
+                    var result = await WebApiClient.Instance.GetListAsync<ResponseModel>("/api/Chemistry/GetAll/ID", null);
 
                     myanmarList.ItemsSource = (result.Data ?? new List<CommomModels>()).ToList();
                     UserDialogs.Instance.HideLoading();

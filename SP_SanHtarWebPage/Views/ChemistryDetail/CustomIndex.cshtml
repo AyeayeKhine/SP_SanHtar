@@ -1,0 +1,253 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_SubMain.cshtml";
+}
+
+<div id="EditChemistryDetail">
+    <v-edit-chemistry></v-edit-chemistry>
+</div>
+
+<script id="edit-chemistry-template" type="text/template">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 px-1 pt-2" style="font-size:0.9rem;"> </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 mt-3">
+                    <div class="card shadow-box">
+                        <div class="card-header bg-primary">
+                            <p class="m-0">
+                                <i class="fa fa-dribbble"></i>Update Chemistry Part
+                            </p>
+                        </div>
+                        <div class="card-body bg-secondary">
+                            <i class="fa fa-home"></i> General Info
+                            <div class="col-lg-12 col-md-12 col-12 mt-3 border border-darkblue border-top-0 border-left-0 border-right-0"></div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Select Chapter</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <select v-model="chapterId" class="form-control form-control-sm border-rad bg-primary" :disabled="$root.statusUpdate">
+                                                    <option selected disabled :value="0">Select</option>
+                                                    <option v-for="role in Chapterdata" :value="role.ID">{{role.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Part </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="number" v-model.number="Part" placeholder="Part " :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Title </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="Title" placeholder="Title" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Teachar Name </p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input class="form-control form-control-sm border-rad" type="text" v-model="teacherName" placeholder="Teachar Name" :disabled="$root.statusUpdate" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-12 mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="m-0 text-primary mt-1">Video Url...</p>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <input id="videofiles" style="visibility:hidden;display:none" type="file" :disabled="$root.statusUpdate" />
+                                                <button class="btn btn-success2 px-5 text-white" onclick="document.getElementById('videofiles').click()">upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2">
+                            <button class="btn btn-danger shadow-box w-100 text-white" v-on:click="Cancel()">Cancel</button>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2" v-show="$root.statusUpdate">
+                            <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="EditData()" >Edit</button>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-md-3 col-12 mt-3 px-2" v-show ="!$root.statusUpdate">
+                            <button class="btn btn-primary shadow-box w-100 text-white" v-on:click="SaveData()" >Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+
+</script>
+
+<script>
+    Vue.component('v-edit-chemistry', {
+        template: "#edit-chemistry-template",
+        data() {
+            return {
+                chapterId: "0",
+                Chapterdata: [],
+                Part: "",
+                Title: "",
+                teacherName: "",
+                fileName: "",
+                tempvideofileName: "",
+                videofileName: new FormData(),
+            }
+        },
+        methods: {
+            SaveData: function () {
+                this.statusUpdate = true;
+                this.statusResult = false;
+                var that = this;
+                var fileUpload = $("#videofiles").get(0);
+                var files = fileUpload.files;
+                var data = new FormData();
+                data.append('type', 'your_type');
+                data.append('id', '1');
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                var temp =
+                {
+                    ID: new URL(window.location.href).searchParams.get('id'),
+                    Chapter: this.chapterId,
+                    Part: this.Part,
+                    Title: this.Title,
+                    Teachar_Name: this.teacherName,
+                    fileName: this.fileName,
+                    videofileName: this.videofileName
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/ChemistryDetail/InsertChemDetail?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: data => {
+                        if (data.status == 2) {
+                            alert("Chemistry Part Form Update Sucessful !")
+                            this.$parent.statusUpdate = true;
+                            this.ChemistryString = data.Data.ChemistryString;
+                        } else {
+                            alert(data.message)
+                        }
+
+                    },
+                    error: function (err) {
+                        alert(err.message)
+                        console.log(err);
+                    }
+                });
+            },
+            Cancel: function () {
+                window.close();
+            },
+            EditData: function () {
+                this.$parent.statusUpdate = false;
+            },
+            onBind: function () {
+                var getStatus = new URL(window.location.href).searchParams.get('UpdateStatus');
+                var getID = new URL(window.location.href).searchParams.get('id');
+                if (getStatus == "true") {
+                    this.$parent.statusUpdate = true;
+                } else {
+                    this.$parent.statusUpdate = false;
+                }
+                var temp = { ID: getID }
+                $.ajax({
+                    type: 'POST',
+                    url: '/ChemistryDetail/GetbyId?receive=' + JSON.stringify(temp),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: data => {
+                        if (data.status == 2) {
+                            this.chapterId = data.Data.ParentID;
+                            this.Part = data.Data.Part;
+                            this.Title = data.Data.Title;
+                            this.teacherName = data.Data.Teachar_Name;
+                        } else {
+                            alert(data.message)
+                        }
+
+                    },
+                    error: function (err) {
+                        alert(err.message)
+                        console.log(err);
+                    }
+                });
+            }
+        },
+        mounted() {
+            $.ajax({
+                url: "/Chemistry/GetChemistryDropdown",
+                success: codes => this.Chapterdata = codes,
+                error: err => console.log(err)
+            })
+            this.$nextTick(() => {
+                this.onBind();
+            });
+        }
+    });
+
+    new Vue({
+        el: "#EditChemistryDetail",
+        data() {
+            return {
+                statusUpdate: true,
+            }
+        },
+        methods:
+        {
+
+        }
+    })
+</script>

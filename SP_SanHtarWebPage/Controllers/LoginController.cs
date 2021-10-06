@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SP_SanHtarWebPage.cls;
 using SP_SanHtarWebPage.Models;
 
 namespace SP_SanHtarWebPage.Controllers
@@ -43,12 +44,7 @@ namespace SP_SanHtarWebPage.Controllers
                 //await HttpContext.SignOutAsync(Startup.ApplicationAuthenticationSchema);
                 try
                 {
-                    //var result = await WebApiClient.Instance.SignInAsync<Models.SignInResult>(model.Email, model.Password);
-
-                    //if (!string.IsNullOrEmpty(result.AccessToken))
-                    //{
-
-                    //}
+                    var result = await WebApiClient.Instance.SignInAsync<UserModel>("/api/User/Login/" + model.UserName+"/"+ model.Password);
                     return await RedirectToLocal(returnUrl,true);
 
                 }
@@ -70,7 +66,7 @@ namespace SP_SanHtarWebPage.Controllers
                     if (!string.IsNullOrWhiteSpace(returnURL) && Url.IsLocalUrl(string.Format("/{0}/", returnURL)))
                         return RedirectToRoute("Default", new { controller = returnURL, action = "Index" });
                     else
-                        return RedirectToRoute("Default", new { controller = "Registration", action = "Index" });
+                        return  RedirectToRoute("Default", new { controller = "Registration", action = "Index" });
                 }
                 return RedirectToRoute("Default", new { controller = "Login", action = "Index" });
             }
