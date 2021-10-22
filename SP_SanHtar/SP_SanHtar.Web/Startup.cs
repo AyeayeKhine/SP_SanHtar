@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http.Formatting;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,13 +9,18 @@ using SP_SanHtar.Models;
 using SP_SanHtar.Web.cls;
 using SP_SanHtar.Web.ContextDB;
 using SP_SanHtar.Web.DataFormat;
+using SP_SanHtar.Web.Helpers;
+using SP_SanHtar.Web.Middleware;
+using SP_SanHtar.Web.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
 
 namespace SP_SanHtar.Web
 {
     public class Startup
     {
         private IWebHostEnvironment env { get; }
+        
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             // Configuration = configuration;
@@ -40,13 +41,13 @@ namespace SP_SanHtar.Web
             services.AddScoped<OnlineContext>();
             services.AddControllers();
             services.AddSingleton<IItemRepository, ItemRepository>();
-            services.AddSwaggerGen(c =>
-            {
-                c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn API", Version = "v1" });
-                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.EnableAnnotations();
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn API", Version = "v1" });
+            //    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-            });
+            //});
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 // Use the default property (Pascal) casing
@@ -55,7 +56,25 @@ namespace SP_SanHtar.Web
                 // Configure a custom converter
                 //options.SerializerOptions.Converters.Add(new MyCustomJsonConverter());
             });
+            
+            // Helpers
+            //AuthenticationHelper.ConfigureService(services, Configuration["JwtSecurityToken:Issuer"], Configuration["JwtSecurityToken:Audience"], Configuration["JwtSecurityToken:Key"]);
+            // Configure JWT authentication.
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //  .AddJwtBearerConfiguration(Configuration["JwtSecurityToken:Issuer"], Configuration["JwtSecurityToken:Audience"]);
+            CorsHelper.ConfigureService(services);
+            SwaggerHelper.ConfigureService(services);
+            
+
+            //Settings
+            services.Configure<AppSettings>(Configuration.GetSection("JwtSecurityToken"));
+
+            //services.AddSingleton<IAuthorizationHandler, RequireScopeHandler>();
+
             services.AddTransient<IEmailSender, EmailSender>();
+            //services.AddSession(options => {
+            //    options.IdleTimeout = new TimeSpan(0, 2, 0);
+            //});
 
             //services.AddMvc().AddJsonOptions(opt =>
             //{
@@ -75,15 +94,15 @@ namespace SP_SanHtar.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
+            //ConfigureAuth(app);
             app.UseHttpsRedirection();
+
             app.UseRouting();
             app.UseStaticFiles();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            //app.UseSession();
 
+            app.UseCors("CorsPolicy");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -94,6 +113,19 @@ namespace SP_SanHtar.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learn API V1");
                 c.RoutePrefix = string.Empty;
                 c.DocExpansion(DocExpansion.None);
+            });
+
+            //app.UseAuthentication();
+            //app.UseAuthorization();
+            //app.UseErrorHandlingMiddleware();
+            //app.Use(async (context, aa) => {
+            //    var user = context.Request.Headers;
+            //});
+
+            app.UseMiddleware<JwtMiddleware>();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }

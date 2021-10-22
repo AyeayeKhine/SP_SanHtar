@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SP_SanHtar.Web.cls;
 using SP_SanHtar.Web.ContextDB;
+using SP_SanHtar.Web.Helpers;
 using SP_SanHtar.Web.Models;
 
 namespace SP_SanHtar.Web.Controllers
@@ -20,13 +24,16 @@ namespace SP_SanHtar.Web.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
         private byte[] imageBytes;
         private readonly AuthMessageSenderOptions _emailSender;
+        private readonly AppSettings _jwt;
 
-        public UserController(IHostingEnvironment environment)
+        public UserController(IHostingEnvironment environment, IOptions<AppSettings> jwt)
         {
             _hostingEnvironment = environment;
             _emailSender = new AuthMessageSenderOptions();
+            _jwt = jwt.Value;
         }
 
+        [CustomAuthorize]
         [HttpPost("AddUser")]
         public async Task<IActionResult> Create(RegisterUser registerUser)
         {
@@ -125,16 +132,19 @@ namespace SP_SanHtar.Web.Controllers
                             db.Tb_Users.Update(itemUser);
                             db.SaveChanges();
                             var itemAssigns = db.tbl_Assigns.Where(ass => ass.UserID == registerUser.ID && ass.Enabled == true && ass.Active == true).ToList();
-                            foreach (var itemAssign in itemAssigns)
+                            if(itemAssigns.Count() > 0)
                             {
-                                itemAssign.Active = false;
-                                itemAssign.Enabled = false;
-                                db.tbl_Assigns.Update(itemAssign);
+                                foreach (var itemAssign in itemAssigns)
+                                {
+                                    itemAssign.Active = false;
+                                    itemAssign.Enabled = false;
+                                    db.tbl_Assigns.Update(itemAssign);
+                                }
+                                db.SaveChanges();
                             }
-                            db.SaveChanges();
                             string ChemistryString = "";
 
-                            if (registerUser.ChemistryID != null)
+                            if (registerUser.ChemistryID != null && registerUser.ChemistryID !="")
                             {
                                 string[] subs = registerUser.ChemistryID.Split(',');
 
@@ -198,6 +208,7 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
+        [CustomAuthorize]
         [HttpPost]
         [Route("DeleteUser")]
         public async Task<IActionResult> DeleteUser(UserModel userModel)
@@ -335,7 +346,8 @@ namespace SP_SanHtar.Web.Controllers
                         CryptographyClass tempCryptography = new CryptographyClass()
                         {
                             Text = string.Format("{0}{1}", UserName.ToLower().Trim(), Password.Trim()),
-                            SALT = userItem.SaltHash
+                            SALT = userItem.SaltHash,
+                            //PlainText = Encoding.UTF8.GetBytes(Password.Trim())
                         };
                         userModel = new UserModel
                         {
@@ -357,12 +369,15 @@ namespace SP_SanHtar.Web.Controllers
                         {
                             userItem.Password = Password;
                             //return Ok(userItem);
+                            string jwtSecurityToken =generateJwtToken(userModel);
+                            //userModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                            userModel.Token = jwtSecurityToken;
+                            return Ok(new Response { Message = "Login Successful", Status = APIStatus.Successfull, Data = userModel });
                         }
                         else
                         {
                             return Ok(new Response { Message = "Wrong UserName and Password", Status = APIStatus.Error, Data = null });
                         }
-                        return Ok(new Response { Message = "Login Successful", Status = APIStatus.Successfull, Data = userModel });
                     }
                     else
                     {
@@ -379,7 +394,7 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
-
+        [CustomAuthorize]
         [HttpPost]
         [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
@@ -467,6 +482,7 @@ namespace SP_SanHtar.Web.Controllers
         }
 
 
+        [CustomAuthorize]
         [HttpGet]
         [Route("ForgetPassword/{Email}")]
         public async Task<IActionResult> ForgetPassword(string Email)
@@ -520,6 +536,7 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
+        [CustomAuthorize]
         [HttpPost]
         [Route("GetAllUser")]
         public async Task<IActionResult> GetAllUser(SearchClass tempData)
@@ -615,6 +632,7 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
+        [CustomAuthorize]
         [HttpPost]
         [Route("GetbyID")]
         public async Task<IActionResult> GetbyID(UserModel userModel)
@@ -671,6 +689,7 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
+        [CustomAuthorize]
         [HttpPost]
         [Route("RecoverUser")]
         public async Task<IActionResult> RecoverUser(SearchClass tempData)
@@ -766,6 +785,7 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
+        [CustomAuthorize]
         [HttpPost]
         [Route("RestoreUser")]
         public async Task<IActionResult> RestoreUser(UserModel userModel)
@@ -799,6 +819,56 @@ namespace SP_SanHtar.Web.Controllers
 
         }
 
+        private string generateJwtToken(UserModel user)
+        {
+            // generate token that is valid for 7 days
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_jwt.Key);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.ID.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer=_jwt.Issuer,
+                Audience=_jwt.Audience
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
 
+        private async Task<JwtSecurityToken> CreateJwtToken(UserModel user)
+        {
+            var roleClaims = new List<Claim>();
+
+            //for (int i = 0; i < roles.Count; i++)
+            //{
+            //    roleClaims.Add(new Claim("roles", roles[i]));
+            //}
+
+            //string ipAddress = IpHelper.GetIpAddress();
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("uid", user.ID.ToString()),
+                new Claim("userid", user.UserID.ToString()),
+                //new Claim("ip", ipAddress)
+            };
+            //.Union(userClaims)
+            //.Union(roleClaims);
+
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: _jwt.Issuer,
+                audience: _jwt.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
+                signingCredentials: signingCredentials);
+            return jwtSecurityToken;
+        }
     }
 }

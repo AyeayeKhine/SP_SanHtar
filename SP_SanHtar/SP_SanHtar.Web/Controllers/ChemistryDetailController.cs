@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SP_SanHtar.Web.cls;
 using SP_SanHtar.Web.ContextDB;
+using SP_SanHtar.Web.Helpers;
 using SP_SanHtar.Web.Models;
 
 namespace SP_SanHtar.Web.Controllers
 {
+    [CustomAuthorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ChemistryDetailController : ControllerBase

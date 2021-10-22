@@ -77,6 +77,7 @@ namespace SP_SanHtar.Web.cls
         {
             try
             {
+                var enpassword= Encrypt(tempData);
                 return (await Encrypt(tempData)).Equals(OldHASHValue);
             }
             catch

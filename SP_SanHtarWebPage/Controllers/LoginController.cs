@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SP_SanHtarWebPage.cls;
 using SP_SanHtarWebPage.Models;
 
@@ -19,13 +24,9 @@ namespace SP_SanHtarWebPage.Controllers
             {
                 ViewData["ReturnUrl"] = returnUrl;
             }
-            else
-            {
-                ViewData["ReturnUrl"] = "/Registration/Index";
-            }
+            
             return View();
         }
-
 
         [HttpPost]
         [AllowAnonymous]
@@ -45,6 +46,27 @@ namespace SP_SanHtarWebPage.Controllers
                 try
                 {
                     var result = await WebApiClient.Instance.SignInAsync<UserModel>("/api/User/Login/" + model.UserName+"/"+ model.Password);
+                    var json = JsonConvert.SerializeObject(result.Data);
+                    var userResult = JsonConvert.DeserializeObject<UserModel>(json);
+                    var claims = new List<Claim>
+                            {
+                                //new Claim("userid", result.UserID),
+                                //new Claim("name", model.Email),
+                                //new Claim("fullname", result.UserName),
+                                //new Claim("group", result.UserGroup),
+                                //new Claim("memberid", result.MemberID),
+                                //new Claim("membername", result.MemberName),
+                                new Claim("ID", userResult.ID.ToString()),
+                                new Claim("token",userResult.Token)
+                            };
+                    var id = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id), new AuthenticationProperties
+                    {
+                        //IsPersistent = model.RememberMe,
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
+                    }) ;
+                    HttpContext.Session.SetString("ID", userResult.ID.ToString());
                     return await RedirectToLocal(returnUrl,true);
 
                 }
@@ -56,6 +78,16 @@ namespace SP_SanHtarWebPage.Controllers
             return View(model);
         }
 
+       
+        public async Task<IActionResult> SignedOut()
+        {
+            var userName = User.Identity.Name;
+            ViewBag.UserName = userName;
+            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return View();
+        }
+
         private async Task<ActionResult> RedirectToLocal(string returnURL = "", bool IsLogin = false)
         {
             try
@@ -63,7 +95,7 @@ namespace SP_SanHtarWebPage.Controllers
                 if (IsLogin)
                 {
 
-                    if (!string.IsNullOrWhiteSpace(returnURL) && Url.IsLocalUrl(string.Format("/{0}/", returnURL)))
+                    if (!string.IsNullOrWhiteSpace(returnURL) && Url.IsLocalUrl(string.Format("{0}/", returnURL)))
                         return RedirectToRoute("Default", new { controller = returnURL, action = "Index" });
                     else
                         return  RedirectToRoute("Default", new { controller = "Registration", action = "Index" });

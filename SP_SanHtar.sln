@@ -11,7 +11,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SP_SanHtar.Web", "SP_SanHta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SP_SanHtar", "SP_SanHtar\SP_SanHtar\SP_SanHtar.csproj", "{51021A20-085C-449D-9382-B355A62D8635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SP_SanHtarWebPage", "SP_SanHtarWebPage\SP_SanHtarWebPage.csproj", "{466270DB-746F-4835-88DF-5EF67FE2DD3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SP_SanHtarWebPage", "SP_SanHtarWebPage\SP_SanHtarWebPage.csproj", "{466270DB-746F-4835-88DF-5EF67FE2DD3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{6F365553-2D3E-48AE-BB90-C008BF0F5EBB}"
+	ProjectSection(SolutionItems) = preProject
+		..\TestVideo\Edited_20201122_115737.mp4 = ..\TestVideo\Edited_20201122_115737.mp4
+		C:\bak\SPSH.bak = C:\bak\SPSH.bak
+		..\SSPhoto\Untitled.png = ..\SSPhoto\Untitled.png
+		..\SSPhoto\Untitled1.png = ..\SSPhoto\Untitled1.png
+		..\SSPhoto\Untitled2.png = ..\SSPhoto\Untitled2.png
+		..\SSPhoto\Untitled3.png = ..\SSPhoto\Untitled3.png
+		..\SSPhoto\Untitled4.png = ..\SSPhoto\Untitled4.png
+		..\SSPhoto\Untitled5.png = ..\SSPhoto\Untitled5.png
+		..\SSPhoto\Untitled6.png = ..\SSPhoto\Untitled6.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,7 +11,8 @@ using SP_SanHtarWebPage.Models;
 
 namespace SP_SanHtarWebPage.Controllers
 {
-    public class RegistrationController : Controller
+    [CustomAuthorize]
+    public class RegistrationController : BaseController
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         public RegistrationController(IHostingEnvironment environment)
@@ -71,7 +72,7 @@ namespace SP_SanHtarWebPage.Controllers
                     ChemistryID = jsData.ChemistryID,
                     PhotoUrl = path,
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/AddUser", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/AddUser", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new
@@ -104,7 +105,7 @@ namespace SP_SanHtarWebPage.Controllers
             try
             {
                 //==============================================Query============================================================
-                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<UserModel>,UserModel>("/api/User/GetAllUser", tempData);
+                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<UserModel>,UserModel>("/api/User/GetAllUser", tempData, CurrentBearToken);
                return Json(result);
             }
             catch (Exception ex)
@@ -118,7 +119,7 @@ namespace SP_SanHtarWebPage.Controllers
         {
             try
             {
-                var result = await WebApiClient.Instance.GetListAsync<ResponseModel>("/api/Chemistry/GetAll", null);
+                var result = await WebApiClient.Instance.GetListAsync<ResponseModel>("/api/Chemistry/GetAll", CurrentBearToken);
                 return Json(result);
             }
             catch (Exception ex)
@@ -140,7 +141,7 @@ namespace SP_SanHtarWebPage.Controllers
                 {
                     ID = jsData.ID
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/GetbyID", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/GetbyID", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new
@@ -175,7 +176,7 @@ namespace SP_SanHtarWebPage.Controllers
                 {
                     ID = jsData.ID
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/DeleteUser", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/DeleteUser", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new
@@ -206,7 +207,7 @@ namespace SP_SanHtarWebPage.Controllers
             try
             {
                 //==============================================Query============================================================
-                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<UserModel>, UserModel>("/api/User/RecoverUser", tempData);
+                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<UserModel>, UserModel>("/api/User/RecoverUser", tempData, CurrentBearToken);
                 return Json(result);
             }
             catch (Exception ex)
@@ -226,7 +227,7 @@ namespace SP_SanHtarWebPage.Controllers
                     ID = jsData.ID,
                     UserName=jsData.UserName
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/RestoreUser", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, UserModel>("/api/User/RestoreUser", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new

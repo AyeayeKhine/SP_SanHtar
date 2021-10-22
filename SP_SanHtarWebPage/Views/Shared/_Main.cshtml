@@ -15,6 +15,8 @@
     @*<script src="~/Scripts/jquery-3.2.1.slim.min.js"></script>*@
     <script src="~/Scripts/vuetable-2.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @*<script src="~/Scripts/material.min.js"></script>
         <script src="~/Scripts/popper.min.js"></script>
         <script src="~/Scripts/bootstrap.min.js"></script>
@@ -61,11 +63,28 @@
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4 menu-img"><img style="height:120px;margin-left:20px;margin-top:-25px" src="../icon/sicon.png" alt="" /></div>
-                                <div class="col-lg-4"></div>
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-2 col-md-2 col-2 px-2 my-auto">
+                                    <div class="dropdown" style="margin-bottom: 20px;margin-right: -100px;">
+                                        <button style="background-color: gainsboro !important;" class="btn btn-light" id="personal-setting" type="button" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                            SignOut <i class="fa fa-caret-down" aria-hidden="false"></i>
+                                        </button>
+                                        <div class="dropdown-menu drop-per-hover mt-3 bg-primary" aria-labelledby="dropdownMenuButton">
+                                            <button class="dropdown-item drop-per-hover" style="cursor:pointer">
+                                                Manage password
+                                            </button>
+                                            <a href="Login/SignedOut" class="dropdown-item drop-per-hover" style="cursor:pointer">
+                                                Log Out
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                                 @*<p class="text-white py-2 ml-4 my-0" style="color:#fff"><h7 style="color:orange;margin-top:20px;margin-left:-27px">Online Classroom</h7></p>*@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="row">
                             <div class="left-box ml-0 d-md-inline-block d-none">
@@ -148,8 +167,29 @@
                     text: "Chemistry Detail",
                     link: "ChemistryDetail",
                     role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/SignOut.png",
+                    text: "Sign Out",
+                    link: "Login/SignedOut",
+                    role: [1, 2, 3, 4]
                 }
             ]
+        },
+        methods: {
+            Login: function () {
+
+                var that = this;
+                var temp =
+                {
+                        adddetail: "",
+                }
+                that.$http.post("/Login/SignedOut")  //ส่งค่าไปหลังบ้าน
+                    .then(response => {
+                }, response => {
+                  
+                });
+            }
         }
     })
     new Vue({
@@ -178,6 +218,12 @@
                     img: "../icon/map.svg",
                     text: "Chemistry Detail",
                     link: "ChemistryDetail",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/SignOut.png",
+                    text: "Sign Out",
+                    link: "Login/SignedOut",
                     role: [1, 2, 3, 4]
                 }
             ]
@@ -211,6 +257,12 @@
                     img: "../icon/map.svg",
                     text: "Chemistry Detail",
                     link: "ChemistryDetail",
+                    role: [1, 2, 3, 4]
+                },
+                {
+                    img: "../icon/SignOut.png",
+                    text: "Sign Out",
+                    link: "Login/SignedOut",
                     role: [1, 2, 3, 4]
                 }
             ]

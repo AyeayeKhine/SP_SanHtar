@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SP_SanHtar.Web</name>
+    </assembly>
+    <members>
+        <member name="M:SP_SanHtar.Web.ContextDB.Entity.GenerateNewIdentity">
+            <summary>
+            Generate identity for this entity
+            </summary>
+        </member>
+        <member name="M:SP_SanHtar.Web.ContextDB.IdentityGenerator.NewSequentialGuid">
+            <summary>
+            This algorithm generates secuential GUIDs across system boundaries, ideal for databases 
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

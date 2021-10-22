@@ -11,7 +11,8 @@ using SP_SanHtarWebPage.Models;
 
 namespace SP_SanHtarWebPage.Controllers
 {
-    public class ChemistryController : Controller
+    [CustomAuthorize]
+    public class ChemistryController : BaseController
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
@@ -19,6 +20,7 @@ namespace SP_SanHtarWebPage.Controllers
         {
             _hostingEnvironment = environment;
         }
+      
         public IActionResult Index()
         {
             return View();
@@ -68,7 +70,7 @@ namespace SP_SanHtarWebPage.Controllers
                     Photo_Path = path,
                     isPhotoUpdate= isPhotoupdate
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, CommonModel>("/api/Chemistry/AddItem", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, CommonModel>("/api/Chemistry/AddItem", commonData,CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new
@@ -96,7 +98,7 @@ namespace SP_SanHtarWebPage.Controllers
         public async Task<JsonResult> GetChemistryDropdown()
         {
 
-            var result = await WebApiClient.Instance.GetChemistryAsync<ResponseModel>("/api/Chemistry/GetAll", null);
+            var result = await WebApiClient.Instance.GetChemistryAsync<ResponseModel>("/api/Chemistry/GetAll", CurrentBearToken);
             List<DropdownList> chemistyList = new List<DropdownList>();
             if(result.Data !=null && result.Data.Count() > 0)
             {
@@ -115,7 +117,7 @@ namespace SP_SanHtarWebPage.Controllers
             try
             {
                 //==============================================Query============================================================
-                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<CommonModel>,CommonModel>("/api/Chemistry/GetChemistry", tempData);
+                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<CommonModel>,CommonModel>("/api/Chemistry/GetChemistry", tempData, CurrentBearToken);
                 return Json(result);
             }
             catch (Exception ex)
@@ -131,7 +133,7 @@ namespace SP_SanHtarWebPage.Controllers
             try
             {
                 //==============================================Query============================================================
-                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<CommonModel>, CommonModel>("/api/Chemistry/RecoverChemistry", tempData);
+                var result = await WebApiClient.Instance.PostAsyncForList<ResponseList<CommonModel>, CommonModel>("/api/Chemistry/RecoverChemistry", tempData, CurrentBearToken);
                 return Json(result);
             }
             catch (Exception ex)
@@ -152,7 +154,7 @@ namespace SP_SanHtarWebPage.Controllers
                 {
                     ID = jsData.ID
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, CommonModel>("/api/Chemistry/GetbyID", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, CommonModel>("/api/Chemistry/GetbyID", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new
@@ -187,7 +189,7 @@ namespace SP_SanHtarWebPage.Controllers
                 {
                     ID = jsData.ID
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, CommomModels>("/api/Chemistry/DeleteChemistry", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, CommomModels>("/api/Chemistry/DeleteChemistry", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new
@@ -223,7 +225,7 @@ namespace SP_SanHtarWebPage.Controllers
                     Chapter=jsData.Chapter
                     
                 };
-                var result = await WebApiClient.Instance.PostAsync<Response, CommomModels>("/api/Chemistry/RestoreChemistry", commonData);
+                var result = await WebApiClient.Instance.PostAsync<Response, CommomModels>("/api/Chemistry/RestoreChemistry", commonData, CurrentBearToken);
                 if (result.Status == APIStatus.Successfull)
                 {
                     return Json(new

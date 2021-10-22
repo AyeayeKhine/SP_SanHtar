@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,13 +17,14 @@ namespace SP_SanHtarWebPage.cls
     {
         //public static string UrlApi = "https://sp-sanhtar-web.conveyor.cloud/";
         public static string UrlApi = "http://localhost:45706";
-        private WebApiClient(string baseUri)
+        public HttpClient _client;
+        private WebApiClient(string baseUri,HttpClient client)
         {
             BaseUri = baseUri;
+            this._client = client;
         }
 
         private static WebApiClient _instance;
-
         public static WebApiClient Instance
         {
             get
@@ -30,7 +32,7 @@ namespace SP_SanHtarWebPage.cls
                 if (_instance == null)
                 {
                     //_instance = new WebApiClient("https://sp-sanhtar-web.conveyor.cloud");
-                    _instance = new WebApiClient("http://localhost:45706");
+                    _instance = new WebApiClient("http://localhost:45706",new HttpClient());
                 }
 
                 return _instance;
@@ -64,8 +66,22 @@ namespace SP_SanHtarWebPage.cls
 
         public async Task<ResponseList<T>> GetListAsync<T>(string action, string authToken = null)
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(new HttpClientHandler
             {
+                UseCookies = false,
+                PreAuthenticate = true,
+                UseDefaultCredentials = true,
+            }))
+            {
+                if (!string.IsNullOrWhiteSpace(authToken))
+                {
+                    //Add the authorization header                    
+                    //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
+                    client.Timeout = new TimeSpan(0, 5, 0);
+                    client.DefaultRequestHeaders.Add("Cookie", authToken);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", "=" + authToken);
+
+                }
                 var result = await client.GetAsync(BuildActionUri(action));
 
                 string json = await result.Content.ReadAsStringAsync();
@@ -175,8 +191,22 @@ namespace SP_SanHtarWebPage.cls
         }
         public async Task<ResponseModel> GetChemistryAsync<T>(string action, string authToken = null)
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(new HttpClientHandler
             {
+                UseCookies = false,
+                PreAuthenticate = true,
+                UseDefaultCredentials = true,
+            }))
+            {
+                if (!string.IsNullOrWhiteSpace(authToken))
+                {
+                    //Add the authorization header                    
+                    //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
+                    client.Timeout = new TimeSpan(0, 5, 0);
+                    client.DefaultRequestHeaders.Add("Cookie", authToken);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", "=" + authToken);
+
+                }
 
                 var result = await client.GetAsync(BuildActionUri(action));
 
@@ -288,13 +318,29 @@ namespace SP_SanHtarWebPage.cls
             }
         }
 
-        public async Task<ResponseList<S>> PostAsyncForList<T,S>(string action, TableSearchClass data)
+        public async Task<ResponseList<S>> PostAsyncForList<T,S>(string action, TableSearchClass data,string authToken =null)
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(
+                new HttpClientHandler 
+                {
+                    UseCookies = false ,
+                    PreAuthenticate=true,
+                    UseDefaultCredentials=true,
+                }))
             {
+                if (!string.IsNullOrWhiteSpace(authToken))
+                {
+                    //Add the authorization header                    
+                    //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
+                    client.Timeout = new TimeSpan(0, 5, 0);
+                    client.DefaultRequestHeaders.Add("Cookie", authToken);
+                    client.DefaultRequestHeaders.Authorization =new AuthenticationHeaderValue("key", "=" + authToken);
+                   
+                }
                 ResponseList<S> resModel = new ResponseList<S>();
                 var jsonInString = JsonConvert.SerializeObject(data);
-                var result = await client.PostAsync(BuildActionUri(action), new StringContent(jsonInString, Encoding.UTF8, "application/json"));
+                HttpContent content = new StringContent(jsonInString, Encoding.UTF8, "application/json");
+                var result = await client.PostAsync(BuildActionUri(action), content);
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -319,10 +365,25 @@ namespace SP_SanHtarWebPage.cls
             }
         }     
 
-        public async Task<T> PostAsync<T,S>(string action, S data)
+        public async Task<T> PostAsync<T,S>(string action, S data, string authToken = null)
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(
+                new HttpClientHandler
+                {
+                    UseCookies = false,
+                    PreAuthenticate = true,
+                    UseDefaultCredentials = true,
+                }))
             {
+                if (!string.IsNullOrWhiteSpace(authToken))
+                {
+                    //Add the authorization header                    
+                    //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
+                    client.Timeout = new TimeSpan(0, 5, 0);
+                    client.DefaultRequestHeaders.Add("Cookie", authToken);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", "=" + authToken);
+
+                }
                 Response resModel = new Response();
                 var jsonInString = JsonConvert.SerializeObject(data);
                 var result = await client.PostAsync(BuildActionUri(action), new StringContent(jsonInString, Encoding.UTF8, "application/json"));

@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SP_SanHtar.Web.cls;
 using SP_SanHtar.Web.ContextDB;
+using SP_SanHtar.Web.Helpers;
 using SP_SanHtar.Web.Models;
 
 namespace SP_SanHtar.Web.Controllers
 {
+    [EnableCors("CorsPolicy")]
+    [CustomAuthorize]
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]  
     public class ChemistryController : ControllerBase
     {
         clsUtility utility = new clsUtility();
@@ -138,7 +143,7 @@ namespace SP_SanHtar.Web.Controllers
             try
             {
                
-                var itemList = await db.Tb_Chemistrys.OrderBy(i => i.Chapter).ToListAsync();
+                var itemList = await db.Tb_Chemistrys.OrderBy(i => i.Chapter).Where(chem => chem.Active==true && chem.Enabled==true).ToListAsync();
                 var dataList = new List<CommomModels>();
                 foreach (var item in itemList)
                 {

@@ -34,5 +34,6 @@ namespace SP_SanHtarWebPage.Models
         public string PartID { get; set; }
         public string ChemistryID { get; set; }
         public string ChemistryString { get; set; }
+        public string Token { get; set; }
     }
 }
