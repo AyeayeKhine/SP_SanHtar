@@ -9,3 +9,4 @@ In Assign Fucntion, Admin or Teacher can assign to student or study guy
 In Web Api using RESTFul
 In Mobile (For Studnet or Member)
 Can see vidoe or downlaod video from Upload in Server (Admin)
+Can see sample video Path SP_SanHtar\SP_SanHtar\SampleVideo
