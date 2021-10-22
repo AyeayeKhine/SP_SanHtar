@@ -1,6 +1,7 @@
 # SP_SanHtar(Online Teaching Project for Teacher and Student or Study Guy)
 This solution have 3 projects (WebPage, Mobile App and Web Api).
 Using .Net Core 3.1
+Using Xamarin.Form for Mobile App.
 Have Authentication and Authrorization Function.
 In WebPage (For Teacher or Admin Upload video )
 CRUD function and Add more Restore Fucntion and Assign Function
